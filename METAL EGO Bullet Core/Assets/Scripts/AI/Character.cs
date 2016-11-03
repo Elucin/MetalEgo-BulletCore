@@ -4,17 +4,18 @@ using System.Collections;
 public class Character : MonoBehaviour {
 	
 	public string objectType; // type of opponent "kamakaza" "tank" "mech" "flying" 
-	public int health; // Amount of health
+	public float health; // Amount of health
 	public int attackPower; // Player damage dealt
 	public int defensePower; // Factor dividing projectiles attack power !!DONT TYPE AS ZERO!!
 	public float acceleration; // Meter per second^2
 	public float maxSpeed; // Meters per second
 	public float currentSpeed; // Meters per second
+	public int threat;
 
-	public GameObject player = GameObject.FindWithTag ("Player");
+	public GameObject player;
 
-	public Animator animator = GetComponent<Animator>();
-	public Rigidbody body = GetComponent<Rigidbody>();
+	public Animator animator;
+	public Rigidbody body;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,11 @@ public class Character : MonoBehaviour {
 		acceleration = 5;
 		maxSpeed = 25;
 		currentSpeed = 0f;
+		threat = 1;
+		player = GameObject.FindWithTag ("Player");
+		animator = GetComponent<Animator>();
+		body = GetComponent<Rigidbody>();
+
 	}
 	
 	// Update is called once per frame
@@ -32,7 +38,7 @@ public class Character : MonoBehaviour {
 		Move ();
 	}
 
-	private void Move()
+	protected void Move()
 	{
 		currentSpeed = currentSpeed + 1 * acceleration;
 		if (currentSpeed >= maxSpeed)
