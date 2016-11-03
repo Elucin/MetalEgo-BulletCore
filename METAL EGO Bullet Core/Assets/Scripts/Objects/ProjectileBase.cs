@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ProjectileBase : MonoBehaviour {
 
+    public GameObject impactParticles;
     public float speed;
     public float damage;
 
@@ -22,21 +23,18 @@ public class ProjectileBase : MonoBehaviour {
         Expire();   
 	}
 
-    protected void Expire()
-    {
+    protected void Expire(){
         if(Time.time - startTimer >= lifetime)
         {
             DestroyBullet();
         }
     }
 
-    protected void DestroyBullet()
-    {
+    protected void DestroyBullet(){
         Destroy(gameObject);
     }
 
-    void OnCollisionEnter(Collider c)
-    {
+    void OnCollisionEnter(Collision c){
         //Interact with objects
         //Player
         //Enemy
