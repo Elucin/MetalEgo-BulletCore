@@ -41,7 +41,7 @@ public class CharacterBase : MonoBehaviour {
 
 		} else {
 			Debug.Log ("Player is null!");
-			return null;
+			return 0f;
 		}
 	}
 
