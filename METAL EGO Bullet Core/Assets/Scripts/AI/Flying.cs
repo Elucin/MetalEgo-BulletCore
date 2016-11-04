@@ -5,6 +5,8 @@ public class Flying : CharacterBase {
 
 	// Use this for initialization
 	void Start () {
+		defensePower = 2;
+		attackPower = 4;
 		maxSpeed = 20;
 	}
 	
