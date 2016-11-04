@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Tank : CharacterBase {
 
+
 	// Use this for initialization
 	void Start () {
 		defensePower = 4;
