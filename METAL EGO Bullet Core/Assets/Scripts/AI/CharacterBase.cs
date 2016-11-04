@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Character : MonoBehaviour {
+public class CharacterBase : MonoBehaviour {
 	
 	public string objectType; // type of opponent "kamakaza" "tank" "mech" "flying" 
 	public float health; // Amount of health
