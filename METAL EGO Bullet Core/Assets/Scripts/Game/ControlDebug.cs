@@ -51,7 +51,7 @@ public class ControlDebug : MonoBehaviour {
 		if (Mathf.Abs(Input.GetAxis ("j2_Y")) > 0.05f)
 			Debug.Log ("Left - Y Axis");
 		if (Mathf.Abs(Input.GetAxis ("j2_Z")) > 0.05f)
-			Debug.Log ("Left - Z Axis");
+			Debug.Log ("Left - Z Axis: " + Input.GetAxis("j2_Z"));
 
 		if (Input.GetAxis ("j3_X") > 0.05f)
 			Debug.Log ("Pedals - Left Foot");
