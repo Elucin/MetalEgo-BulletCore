@@ -41,8 +41,10 @@ public class PlayerControl : MonoBehaviour {
 
 		foreach(float s in speeds)
 			speedCoef += s;
-
-		return (speedCoef /speeds.Count) / SPEED_DENOM;
+		
+		speedCoef = (speedCoef /speeds.Count) / SPEED_DENOM;
+		speedCoef = Mathf.Clamp (speedCoef, 0f, 1f);
+		return speedCoef;
 	}
 
 	float GetTurnCoefficient()
