@@ -4,15 +4,18 @@ using System.Collections;
 public class EnemyMech : CharacterBase {
 
 	// Use this for initialization
-	void Start () {
-		defensePower = 5;
-		attackPower = 8;
-		acceleration = 3;
-		maxSpeed = 10;
+	public override void Start () {
+		base.defensePower = 5;
+		base.attackPower = 8;
+		base.acceleration = 3;
+		base.maxSpeed = 10;
+		base.Start ();
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
+		base.Update ();
 	
 	}
 }
