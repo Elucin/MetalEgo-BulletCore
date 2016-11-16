@@ -14,6 +14,7 @@ public class CharacterBase : MonoBehaviour {
 	public int attackDistance = 20;
 	//public Vector3 dest;
 	protected GameObject player;
+	private GameObject bulletPrefab;
 
 	//public Animator animator;
 	//public Rigidbody body;
@@ -21,6 +22,7 @@ public class CharacterBase : MonoBehaviour {
 	// Use this for initialization
 	public virtual void Start () {
 		player = GameObject.FindWithTag ("Player");
+		bulletPrefab = (GameObject) Resources.Load("BulletPrefab", typeof(GameObject));
 		//animator = GetComponent<Animator>();
 		//body = GetComponent<Rigidbody>();
 
@@ -70,6 +72,24 @@ public class CharacterBase : MonoBehaviour {
 		if(DistanceToPlayer() <= attackDistance){
 			Debug.Log (objectType +" attacking Player");
 
+		}
+
+	}
+
+	protected void Shoot()
+	{
+		Transform projectile;
+		float bulletSpeed = 6f;
+
+		if (DistanceToPlayer () <= attackDistance) {
+			GameObject bullet = (GameObject)Instantiate (
+				                    bulletPrefab,
+				                    transform.position,
+				                    transform.rotation
+			                    );
+			bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
+
+			Destroy (bullet, 0.5f);
 		}
 
 	}

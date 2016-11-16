@@ -26,6 +26,7 @@ public class Tank : CharacterBase {
 
 	protected override void Attack(){
 		base.Attack ();
+		base.Shoot ();
 
 	}
 }
