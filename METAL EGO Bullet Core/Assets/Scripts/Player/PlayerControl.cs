@@ -15,6 +15,7 @@ public class PlayerControl : MonoBehaviour {
 	bool canJump;
 	float jumpPower;
 	float maxJumpForce; //Modified by crouching height
+	bool isGrounded;
 
 	System.Collections.Generic.List<float> j1_xAxis;
 	System.Collections.Generic.List<float> j1_yAxis;
@@ -54,14 +55,15 @@ public class PlayerControl : MonoBehaviour {
 		if (j2_yAxis.Count > TARGET_SMOOTHING)
 			j2_yAxis.RemoveAt (0);
 		
-		Movement ();
+		isGrounded = IsGrounded ();
 		Targeting ();
-		//CrouchAndJump ();
 	}
 
 	void FixedUpdate()
 	{
-		
+		CrouchAndJump();
+		Movement ();
+
 	}
 
 	float GetSpeedCoefficient()
@@ -92,8 +94,11 @@ public class PlayerControl : MonoBehaviour {
 
 	void Movement()
 	{
-		rigidBody.velocity = transform.TransformDirection(new Vector3 (0, 0, MAX_SPEED) * GetSpeedCoefficient ());
-		//If 
+		//GetComponent<Rigidbody>().AddRelativeForce(transform.TransformDirection(new Vector3 (0, 0, MAX_SPEED) * GetSpeedCoefficient ()), ForceMode.VelocityChange);
+		//float yVel = GetComponent<Rigidbody> ().velocity.y + Physics.gravity.y * Time.deltaTime;
+		if(isGrounded)
+			GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3 (0, 0, MAX_SPEED) * GetSpeedCoefficient ());
+		//GetComponent<Rigidbody> ().velocity = new Vector3 (rigidBody.velocity.x, yVel, rigidBody.velocity.z);
 		if (Input.GetAxis ("j3_X") > -0.5f && Input.GetAxis ("j3_Y") > -0.5f && Mathf.Abs (GetTurnCoefficient ()) < 0.6f) {
 			Camera.main.transform.localPosition = Vector3.Lerp (Camera.main.transform.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.localPosition.z), Time.time / 100f); 
 			crouching = true;
@@ -104,7 +109,7 @@ public class PlayerControl : MonoBehaviour {
 			crouching = false;
 		}
 		transform.localEulerAngles = new Vector3 (0, transform.localEulerAngles.y, 0);
-		CrouchAndJump();
+
 	}
 
 	void Targeting()
@@ -128,12 +133,12 @@ public class PlayerControl : MonoBehaviour {
 	void CrouchAndJump()
 	{
 		
-		if (crouching && jumpPower < 100.0f && canJump) {
-			jumpPower += 75.0f * Time.deltaTime;
+		if (crouching && jumpPower < 100.0f && canJump && isGrounded) {
+			jumpPower += 75f * Time.deltaTime;
 			jumpPower = Mathf.Clamp (jumpPower, 0, 100f);
 			Debug.Log (jumpPower);
 		} else if (!crouching && jumpPower > 0) {
-			GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 100000f, 50000f) * jumpPower, ForceMode.Impulse);
+			GetComponent<Rigidbody> ().AddForce (transform.TransformDirection(new Vector3 (0, 150f, 75f) * jumpPower), ForceMode.Impulse);
 			jumpPower = 0f;
 		} else if (crouching && jumpPower >= 100.0f) {
 			Debug.Log ("Fizzle");
@@ -143,5 +148,15 @@ public class PlayerControl : MonoBehaviour {
 			canJump = true;
 		}
 		
+	}
+
+	bool IsGrounded()
+	{
+		RaycastHit hit;
+		bool ray = Physics.Raycast (transform.position, -Vector3.up, out hit, 1.075f);
+		//bool ray =  Physics.SphereCast(transform.position, 0.5f, -transform.up, out hit , 0.07f);
+		if(hit.collider != null)
+			Debug.Log (hit.collider.transform.name);
+		return ray;
 	}
 }
