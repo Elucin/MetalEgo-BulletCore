@@ -12,7 +12,7 @@ public class CharacterBase : MonoBehaviour {
 	public float currentSpeed = 1f; // Meters per second
 	public int threat = 1;
 	public int attackDistance = 20;
-	public float attackRate = 2.0f;
+	public float attackDelay = 2.0f;
 	//public Vector3 dest;
 	protected GameObject player;
 	private GameObject bulletPrefab;
@@ -59,7 +59,7 @@ public class CharacterBase : MonoBehaviour {
 	}
 
 
-	protected void Move()
+	protected virtual void Move()
 	{
 		agent.SetDestination (player.transform.position);
 		agent.speed = maxSpeed;
@@ -91,12 +91,18 @@ public class CharacterBase : MonoBehaviour {
 					                    transform.position,
 					                    transform.rotation
 				                    );
-				float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed;
-				bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
+			bullet.GetComponent<ProjectileBase> ().damage = attackPower;
+			float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed = attackPower;
+			bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
 
 
 			//Destroy (bullet, 0.5f);
 		}
+
+	}
+
+	protected void Melee()
+	{
 
 	}
 

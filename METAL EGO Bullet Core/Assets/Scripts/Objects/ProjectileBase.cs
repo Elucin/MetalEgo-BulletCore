@@ -36,6 +36,8 @@ public class ProjectileBase : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision c){
+
+
         //Interact with objects
         //Player
         //Enemy

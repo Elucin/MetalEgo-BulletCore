@@ -10,7 +10,7 @@ public class Tank : CharacterBase {
 		base.defensePower = 4;
 		base.attackPower = 6;
 		base.maxSpeed = 5;
-		base.acceleration = 1f;
+		base.acceleration = 3f;
 		base.currentSpeed = 2f;
 		base.attackDistance = 20;
 
@@ -25,11 +25,10 @@ public class Tank : CharacterBase {
 	}
 
 	protected override void Attack(){
-		base.Attack ();
 		if(base.startTimer == null)
 			base.startTimer = Time.time;
 
-		if (Time.time - base.startTimer >= base.attackRate) {
+		if (Time.time - base.startTimer >= base.attackDelay) {
 			base.Shoot ();
 			base.startTimer = Time.time;
 
