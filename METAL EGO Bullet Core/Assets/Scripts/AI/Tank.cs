@@ -26,7 +26,14 @@ public class Tank : CharacterBase {
 
 	protected override void Attack(){
 		base.Attack ();
-		base.Shoot ();
+		if(base.startTimer == null)
+			base.startTimer = Time.time;
+
+		if (Time.time - base.startTimer >= base.attackRate) {
+			base.Shoot ();
+			base.startTimer = Time.time;
+
+		}
 
 	}
 }

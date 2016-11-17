@@ -12,9 +12,12 @@ public class CharacterBase : MonoBehaviour {
 	public float currentSpeed = 1f; // Meters per second
 	public int threat = 1;
 	public int attackDistance = 20;
+	public float attackRate = 2.0f;
 	//public Vector3 dest;
 	protected GameObject player;
 	private GameObject bulletPrefab;
+	//private float bulletSpeed;
+	protected float startTimer;
 
 	//public Animator animator;
 	//public Rigidbody body;
@@ -78,18 +81,21 @@ public class CharacterBase : MonoBehaviour {
 
 	protected void Shoot()
 	{
-		Transform projectile;
-		float bulletSpeed = 6f;
+		//Transform projectile;
+
 
 		if (DistanceToPlayer () <= attackDistance) {
-			GameObject bullet = (GameObject)Instantiate (
-				                    bulletPrefab,
-				                    transform.position,
-				                    transform.rotation
-			                    );
-			bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
+			
+				GameObject bullet = (GameObject)Instantiate (
+					                    bulletPrefab,
+					                    transform.position,
+					                    transform.rotation
+				                    );
+				float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed;
+				bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
 
-			Destroy (bullet, 0.5f);
+
+			//Destroy (bullet, 0.5f);
 		}
 
 	}
