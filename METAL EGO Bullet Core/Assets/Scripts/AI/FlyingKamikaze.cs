@@ -4,15 +4,18 @@ using System.Collections;
 public class Kamikaze : CharacterBase {
 
 	// Use this for initialization
-	void Start () {
-		defensePower = 1;
-		attackPower = 10;
-		acceleration = 8;
-		maxSpeed = 45;
+	public override void Start () {
+		base.defensePower = 1;
+		base.attackPower = 10;
+		base.acceleration = 8;
+		base.maxSpeed = 45;
+		base.Start ();
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
+		base.Update ();
 	
 	}
 }

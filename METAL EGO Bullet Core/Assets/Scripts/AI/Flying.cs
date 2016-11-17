@@ -4,14 +4,17 @@ using System.Collections;
 public class Flying : CharacterBase {
 
 	// Use this for initialization
-	void Start () {
-		defensePower = 2;
-		attackPower = 4;
-		maxSpeed = 20;
+	public override void Start () {
+		base.defensePower = 2;
+		base.attackPower = 4;
+		base.maxSpeed = 20;
+		base.Start ();
+
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
+		base.Update ();
 	
 	}
 }

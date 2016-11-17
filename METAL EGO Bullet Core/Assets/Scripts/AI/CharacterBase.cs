@@ -9,26 +9,35 @@ public class CharacterBase : MonoBehaviour {
 	public int defensePower = 2; // Factor dividing projectiles attack power !!DONT TYPE AS ZERO!!
 	public float acceleration = 5f; // Meter per second^2
 	public float maxSpeed = 25f; // Meters per second
-	public float currentSpeed = 0f; // Meters per second
+	public float currentSpeed = 1f; // Meters per second
 	public int threat = 1;
-	public int attackDistance = 10;
-
+	public int attackDistance = 20;
+	//public Vector3 dest;
 	protected GameObject player;
+	private GameObject bulletPrefab;
 
-	public Animator animator;
-	public Rigidbody body;
-
+	//public Animator animator;
+	//public Rigidbody body;
+	protected NavMeshAgent agent;
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
 		player = GameObject.FindWithTag ("Player");
-		animator = GetComponent<Animator>();
-		body = GetComponent<Rigidbody>();
+		bulletPrefab = (GameObject) Resources.Load("BulletPrefab", typeof(GameObject));
+		//animator = GetComponent<Animator>();
+		//body = GetComponent<Rigidbody>();
+
+
+		agent = GetComponent<NavMeshAgent>();
+		agent.stoppingDistance = attackDistance;
 
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
+		agent.destination = player.transform.position; 
+		//dest = agent.destination;
 		Move ();
+		//agent.Move (GetVelocity);
 		Attack ();
 	}
 
@@ -37,6 +46,7 @@ public class CharacterBase : MonoBehaviour {
 		float dist;
 		if (player) {
 			dist = Vector3.Distance (player.transform.position, transform.position);
+			//Debug.Log (dist);
 			return dist;
 
 		} else {
@@ -45,22 +55,41 @@ public class CharacterBase : MonoBehaviour {
 		}
 	}
 
+
 	protected void Move()
 	{
-		currentSpeed = currentSpeed + 1 * acceleration;
-		if (currentSpeed >= maxSpeed)
-			currentSpeed = maxSpeed;
-		float step = currentSpeed * Time.deltaTime;
-		Transform target = player.transform;
+		agent.SetDestination (player.transform.position);
+		agent.speed = maxSpeed;
+		agent.acceleration = acceleration;
 
-		transform.position = Vector3.MoveTowards (transform.position, target.position, step);
+
+
+
 	}
 
-	protected void Attack()
+	protected virtual void Attack()
 	{
 		if(DistanceToPlayer() <= attackDistance){
 			Debug.Log (objectType +" attacking Player");
 
+		}
+
+	}
+
+	protected void Shoot()
+	{
+		Transform projectile;
+		float bulletSpeed = 6f;
+
+		if (DistanceToPlayer () <= attackDistance) {
+			GameObject bullet = (GameObject)Instantiate (
+				                    bulletPrefab,
+				                    transform.position,
+				                    transform.rotation
+			                    );
+			bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
+
+			Destroy (bullet, 0.5f);
 		}
 
 	}
