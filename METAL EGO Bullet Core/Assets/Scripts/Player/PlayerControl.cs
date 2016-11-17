@@ -11,6 +11,11 @@ public class PlayerControl : MonoBehaviour {
 	public GameObject RightPivot;
 	public GameObject LeftPivot;
 
+	bool crouching;
+	bool canJump;
+	float jumpPower;
+	float maxJumpForce; //Modified by crouching height
+
 	System.Collections.Generic.List<float> j1_xAxis;
 	System.Collections.Generic.List<float> j1_yAxis;
 	System.Collections.Generic.List<float> j2_xAxis;
@@ -30,6 +35,7 @@ public class PlayerControl : MonoBehaviour {
 		j1_yAxis = new System.Collections.Generic.List<float> ();
 		j2_xAxis = new System.Collections.Generic.List<float> ();
 		j2_yAxis = new System.Collections.Generic.List<float> ();
+		jumpPower = 0;
 
 	}
 	
@@ -87,27 +93,24 @@ public class PlayerControl : MonoBehaviour {
 	void Movement()
 	{
 		rigidBody.velocity = transform.TransformDirection(new Vector3 (0, 0, MAX_SPEED) * GetSpeedCoefficient ());
-		if (Input.GetAxis ("j3_X") > -0.9f && Input.GetAxis ("j3_Y") > -0.9f && Mathf.Abs (GetTurnCoefficient ()) < 0.5f) {
+		//If 
+		if (Input.GetAxis ("j3_X") > -0.5f && Input.GetAxis ("j3_Y") > -0.5f && Mathf.Abs (GetTurnCoefficient ()) < 0.6f) {
 			Camera.main.transform.localPosition = Vector3.Lerp (Camera.main.transform.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.localPosition.z), Time.time / 100f); 
+			crouching = true;
+			rigidBody.angularVelocity = Vector3.zero;
 		} else {
 			Camera.main.transform.localPosition = Vector3.Lerp (Camera.main.transform.localPosition, new Vector3 (0, (1 - Mathf.Abs (Input.GetAxis ("j3_Z")) * 0.2f), Camera.main.transform.localPosition.z), Time.time / 50f); //Head Bob
 			rigidBody.angularVelocity = new Vector3 (0, -GetTurnCoefficient () / 2, 0);
+			crouching = false;
 		}
 		transform.localEulerAngles = new Vector3 (0, transform.localEulerAngles.y, 0);
+		CrouchAndJump();
 	}
 
 	void Targeting()
 	{
-		/*
-		RightPivot.transform.localEulerAngles += new Vector3 (j1_yAxis, j1_xAxis, 0);
-		RightPivot.transform.localEulerAngles = new Vector3(Mathf.Clamp(RightPivot.transform.localEulerAngles.x, 300f, 358.9f), Mathf.Clamp(RightPivot.transform.localEulerAngles.y, 1f, 90f), RightPivot.transform.localEulerAngles.z);
-		LeftPivot.transform.localEulerAngles += new Vector3 (j2_yAxis, j2_xAxis, 0);
-		LeftPivot.transform.localEulerAngles = new Vector3(Mathf.Clamp(LeftPivot.transform.localEulerAngles.x, 300f, 358.9f), Mathf.Clamp(LeftPivot.transform.localEulerAngles.y, 270f, 358.9f), LeftPivot.transform.localEulerAngles.z);
-		*/
-
-
-		RightPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j1_yAxis), 45 + 45 *  GetFloatListAverage(j1_xAxis), 0);
-		LeftPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j2_yAxis), 315 + 45 * GetFloatListAverage(j2_xAxis), 0);
+		RightPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j1_yAxis), 35 + 55 *  GetFloatListAverage(j1_xAxis), 0);
+		LeftPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j2_yAxis), 325 + 55 * GetFloatListAverage(j2_xAxis), 0);
 	}
 
 	float GetFloatListAverage(System.Collections.Generic.List<float> list)
@@ -124,6 +127,21 @@ public class PlayerControl : MonoBehaviour {
 
 	void CrouchAndJump()
 	{
+		
+		if (crouching && jumpPower < 100.0f && canJump) {
+			jumpPower += 75.0f * Time.deltaTime;
+			jumpPower = Mathf.Clamp (jumpPower, 0, 100f);
+			Debug.Log (jumpPower);
+		} else if (!crouching && jumpPower > 0) {
+			GetComponent<Rigidbody> ().AddForce (new Vector3 (0, 100000f, 50000f) * jumpPower, ForceMode.Impulse);
+			jumpPower = 0f;
+		} else if (crouching && jumpPower >= 100.0f) {
+			Debug.Log ("Fizzle");
+			jumpPower = 0f;
+			canJump = false;
+		} else if (!crouching && jumpPower == 0f) {
+			canJump = true;
+		}
 		
 	}
 }
