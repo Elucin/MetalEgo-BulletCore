@@ -4,33 +4,37 @@ using System.Collections;
 public class ProjectileBase : MonoBehaviour {
 
     public GameObject impactParticles;
-    public float speed;
-    public float damage;
+	protected float speed;
+	protected float damage;
 
     public Transform emitter;
+	public Rigidbody rigidBody;
 
     private float startTimer;
-    private float lifetime;
+    protected float lifetime;
+	protected ParticleSystem particleSys;
 
 
 	// Use this for initialization
-	protected void Start () {
+	protected virtual void Start () {
+		rigidBody = GetComponent<Rigidbody> ();
         startTimer = Time.time;
+		particleSys = GetComponent<ParticleSystem> ();
 	}
 	
 	// Update is called once per frame
-	protected void Update () {
+	protected virtual void Update () {
         Expire();   
 	}
 
-    protected void Expire(){
+    void Expire(){
         if(Time.time - startTimer >= lifetime)
         {
             DestroyBullet();
         }
     }
 
-    protected void DestroyBullet(){
+    void DestroyBullet(){
         Destroy(gameObject);
     }
 

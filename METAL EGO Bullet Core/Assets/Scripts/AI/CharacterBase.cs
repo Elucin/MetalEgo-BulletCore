@@ -70,7 +70,7 @@ public class CharacterBase : MonoBehaviour {
 	protected virtual void Attack()
 	{
 		if(DistanceToPlayer() <= attackDistance){
-			Debug.Log (objectType +" attacking Player");
+			//Debug.Log (objectType +" attacking Player");
 
 		}
 
