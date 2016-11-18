@@ -18,6 +18,7 @@ public class FlyingKamikaze : CharacterBase {
 	
 	// Update is called once per frame
 	public override void Update () {
+		agent.SetDestination (player.transform.position);
 		base.Update ();
 		//Debug.Log("UPDAte");
 	

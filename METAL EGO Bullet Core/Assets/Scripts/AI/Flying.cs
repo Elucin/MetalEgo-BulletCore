@@ -13,6 +13,7 @@ public class Flying : CharacterBase {
 		base.attackPower = 4;
 		base.maxSpeed = 20;
 		//tempPostion = transform.position;
+		base.attackDistance = 0;
 		base.Start ();
 		base.attackDistance = 20;
 
@@ -21,7 +22,28 @@ public class Flying : CharacterBase {
 
 	protected override void Move()
 	{
+		if(agent.pathStatus == NavMeshPathStatus.PathComplete)
+		{
+			Vector3 tempPos = player.transform.position;
+			//Debug.Log (transform.localRotation);
+			float xoffset = Random.Range (-30, 30);
+			tempPos.x = tempPos.x + (xoffset > 0 && xoffset < 10 ? xoffset + 10 : (xoffset < 0 && xoffset > -10 ? xoffset - 10 : xoffset));
+			float zoffset = Random.Range (-30, 30);
+			tempPos.z = tempPos.z + (zoffset > 0 && zoffset < 10 ? zoffset + 10 : (zoffset < 0 && zoffset > -10 ? zoffset - 10 : zoffset));
+			agent.SetDestination (tempPos);
+
+			/*if (transform.position.x == player.transform.position.x && transform.position.z == player.transform.position.z) {
+				Vector3 tempPos = player.transform.position;
+				tempPos.x = tempPos.x + Random.Range (-25, 26);
+				tempPos.z = tempPos.z + Random.Range (-25, -26);
+				agent.SetDestination (tempPos);
+			} else if (transform.position.x != player.transform.position.x && transform.position.z != player.transform.position.z) {
+				agent.SetDestination (player.transform.position);
+			}*/
+		}
+
 		base.Move ();
+		//Debug.Log (agent.destination);
 		tempPostion = transform.position;
 		tempPostion.y = Mathf.Sin(Time.realtimeSinceStartup * verticalSpeed)*amplitude + yOffset;
 		transform.position = tempPostion;

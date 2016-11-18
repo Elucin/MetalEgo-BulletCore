@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CharacterBase : MonoBehaviour {
 	
-	public string objectType = "character"; // type of opponent "kamakaza" "tank" "mech" "flying" 
+	public string objectType = "character"; // type of opponent "kamikaze" "tank" "mech" "flying" 
 	public float health = 100f; // Amount of health
 	public int attackPower = 10; // Player damage dealt
 	public int defensePower = 2; // Factor dividing projectiles attack power !!DONT TYPE AS ZERO!!
@@ -32,12 +32,13 @@ public class CharacterBase : MonoBehaviour {
 
 		agent = GetComponent<NavMeshAgent>();
 		agent.stoppingDistance = attackDistance;
+		agent.SetDestination (player.transform.position);
 
 	}
 	
 	// Update is called once per frame
 	public virtual void Update () {
-		agent.destination = player.transform.position; 
+		//agent.destination = player.transform.position; 
 		//dest = agent.destination;
 		Move ();
 		//agent.Move (GetVelocity);
@@ -61,7 +62,8 @@ public class CharacterBase : MonoBehaviour {
 
 	protected virtual void Move()
 	{
-		agent.SetDestination (player.transform.position);
+		
+		//agent.SetDestination (player.transform.position);
 		agent.speed = maxSpeed;
 		agent.acceleration = acceleration;
 
