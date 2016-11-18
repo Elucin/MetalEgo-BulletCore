@@ -16,6 +16,7 @@ public class ProjectileBase : MonoBehaviour {
 	// Use this for initialization
 	protected void Start () {
         startTimer = Time.time;
+		lifetime = GetComponent<ParticleSystem>().startLifetime;
 	}
 	
 	// Update is called once per frame
@@ -35,6 +36,8 @@ public class ProjectileBase : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision c){
+
+
         //Interact with objects
         //Player
         //Enemy
