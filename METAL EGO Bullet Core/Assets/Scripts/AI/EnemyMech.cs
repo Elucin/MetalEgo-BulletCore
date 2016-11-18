@@ -22,9 +22,7 @@ public class EnemyMech : CharacterBase {
 	}
 
 	protected override void Attack(){
-		base.Attack ();
-		if(base.startTimer == null)
-			base.startTimer = Time.time;
+		//base.Attack ();
 
 		if (Time.time - base.startTimer >= base.attackDelay) {
 			base.Melee ();

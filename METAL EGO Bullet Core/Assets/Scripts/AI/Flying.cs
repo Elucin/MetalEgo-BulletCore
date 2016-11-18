@@ -14,6 +14,7 @@ public class Flying : CharacterBase {
 		base.maxSpeed = 20;
 		//tempPostion = transform.position;
 		base.Start ();
+		base.attackDistance = 20;
 
 
 	}
@@ -26,9 +27,9 @@ public class Flying : CharacterBase {
 		transform.position = tempPostion;
 
 	}
+
 	protected override void Attack(){
-		if(base.startTimer == null)
-			base.startTimer = Time.time;
+		
 
 		if (Time.time - base.startTimer >= base.attackDelay) {
 			base.Shoot ();

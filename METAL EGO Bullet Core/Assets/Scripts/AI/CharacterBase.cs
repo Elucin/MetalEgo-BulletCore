@@ -89,8 +89,9 @@ public class CharacterBase : MonoBehaviour {
 				GameObject bullet = (GameObject)Instantiate (
 					                    bulletPrefab,
 					                    transform.position,
-					                    transform.rotation
+										Quaternion.LookRotation(player.transform.position - transform.position)
 				                    );
+
 			bullet.GetComponent<ProjectileBase> ().damage = attackPower;
 			float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed = attackPower;
 			bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
@@ -106,7 +107,7 @@ public class CharacterBase : MonoBehaviour {
 
 	}
 
-	protected void Destruction()
+	protected virtual void Destruction()
 	{
 		Destroy (gameObject);
 	}

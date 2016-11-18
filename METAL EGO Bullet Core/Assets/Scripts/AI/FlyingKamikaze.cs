@@ -19,6 +19,7 @@ public class FlyingKamikaze : CharacterBase {
 	// Update is called once per frame
 	public override void Update () {
 		base.Update ();
+		//Debug.Log("UPDAte");
 	
 	}
 
@@ -30,4 +31,16 @@ public class FlyingKamikaze : CharacterBase {
 		transform.position = tempPostion;
 
 	}
+
+
+	//Kamikazes are special and only deal damage once when they collide with the player
+	void OnCollisionEnter(Collision c){
+		if (c.gameObject.tag == "Player") {
+			//Instantiate (Explosion);
+			//c.gameObject.GetComponent<Player>().Damage(base.attackPower);
+			base.Destruction ();
+		}
+	}
+
+
 }
