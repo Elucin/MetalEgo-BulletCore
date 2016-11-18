@@ -7,13 +7,6 @@ public class Tank : CharacterBase {
 
 	// Use this for initialization
 	public override void Start () {
-		base.defensePower = 4;
-		base.attackPower = 6;
-		base.maxSpeed = 5;
-		base.acceleration = 3f;
-		base.currentSpeed = 2f;
-		base.attackDistance = 20;
-
 		base.Start ();
 
 	}

@@ -7,11 +7,6 @@ public class FlyingKamikaze : CharacterBase {
 	Vector3 tempPostion;
 	// Use this for initialization
 	public override void Start () {
-		base.defensePower = 1;
-		base.attackPower = 10;
-		base.acceleration = 8;
-		base.maxSpeed = 45;
-		//startPos = DistanceToPlayer();
 		base.Start ();
 
 	}
@@ -20,7 +15,6 @@ public class FlyingKamikaze : CharacterBase {
 	public override void Update () {
 		agent.SetDestination (player.transform.position);
 		base.Update ();
-		//Debug.Log("UPDAte");
 	
 	}
 

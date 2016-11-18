@@ -5,12 +5,6 @@ public class EnemyMech : CharacterBase {
 
 	// Use this for initialization
 	public override void Start () {
-		base.defensePower = 5;
-		base.attackPower = 8;
-		base.acceleration = 3;
-		base.acceleration = 1f;
-		base.maxSpeed = 3;
-		base.currentSpeed = 2f;
 		base.Start ();
 
 	}
