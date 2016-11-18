@@ -104,7 +104,13 @@ public class CharacterBase : MonoBehaviour {
 
 	protected void Melee()
 	{
+		if (DistanceToPlayer () <= attackDistance) {
 
+			//Attack animation Tigger
+			//player.GetComponent<Player>().Damage(attackPower);
+			Debug.Log("Player is being Meleed");
+
+		}
 	}
 
 	protected virtual void Destruction()
