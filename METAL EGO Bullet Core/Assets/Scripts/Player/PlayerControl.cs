@@ -12,7 +12,7 @@ public class PlayerControl : MonoBehaviour {
 	public GameObject LeftPivot;
 	public SpriteRenderer leftReticule;
 	public SpriteRenderer rightReticule;
-	Sprite[] reticuleList;
+	public Sprite[] reticuleList;
 	public enum Reticules : int
 	{
 		Gattling = 0,
@@ -45,8 +45,6 @@ public class PlayerControl : MonoBehaviour {
 		j2_xAxis = new System.Collections.Generic.List<float> ();
 		j2_yAxis = new System.Collections.Generic.List<float> ();
 		jumpPower = 0;
-		reticuleList[0] = Resources.Load("Images/gattlingReticule") as Sprite;
-		reticuleList[1] = Resources.Load("Images/missileReticule") as Sprite;
 
 	}
 	
@@ -68,11 +66,15 @@ public class PlayerControl : MonoBehaviour {
 		isGrounded = IsGrounded ();
 		Targeting ();
 
-		if (Input.GetButtonDown ("FireRightMissle"))
+		if (Input.GetButton ("FireLeftMissile"))
 			leftReticule.sprite = reticuleList[(int)Reticules.Missile];
-		else if(Input.GetButtonDown("FireRight"))
+		else
 			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
-			
+
+		if(Input.GetButton("FireRightMissle"))
+			rightReticule.sprite = reticuleList[(int)Reticules.Missile];
+		else
+			rightReticule.sprite = reticuleList[(int)Reticules.Gattling];
 	}
 
 	void FixedUpdate()
