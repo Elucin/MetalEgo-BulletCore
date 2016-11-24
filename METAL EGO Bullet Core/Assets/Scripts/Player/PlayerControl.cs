@@ -10,6 +10,14 @@ public class PlayerControl : MonoBehaviour {
 	const int TARGET_SMOOTHING = 10;
 	public GameObject RightPivot;
 	public GameObject LeftPivot;
+	public SpriteRenderer leftReticule;
+	public SpriteRenderer rightReticule;
+	Sprite[] reticuleList;
+	public enum Reticules : int
+	{
+		Gattling = 0,
+		Missile = 1
+	};
 
 	bool crouching;
 	bool canJump;
@@ -37,6 +45,8 @@ public class PlayerControl : MonoBehaviour {
 		j2_xAxis = new System.Collections.Generic.List<float> ();
 		j2_yAxis = new System.Collections.Generic.List<float> ();
 		jumpPower = 0;
+		reticuleList[0] = Resources.Load("Images/gattlingReticule") as Sprite;
+		reticuleList[1] = Resources.Load("Images/missileReticule") as Sprite;
 
 	}
 	
@@ -57,6 +67,12 @@ public class PlayerControl : MonoBehaviour {
 		
 		isGrounded = IsGrounded ();
 		Targeting ();
+
+		if (Input.GetButtonDown ("FireRightMissle"))
+			leftReticule.sprite = reticuleList[(int)Reticules.Missile];
+		else if(Input.GetButtonDown("FireRight"))
+			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
+			
 	}
 
 	void FixedUpdate()
