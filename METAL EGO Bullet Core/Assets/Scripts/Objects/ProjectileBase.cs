@@ -4,8 +4,8 @@ using System.Collections;
 public class ProjectileBase : MonoBehaviour {
 
     public GameObject impactParticles;
-	protected float speed;
-	protected float damage;
+	public float speed;
+	public float damage;
 
     public Transform emitter;
 	public Rigidbody rigidBody;
@@ -43,6 +43,12 @@ public class ProjectileBase : MonoBehaviour {
 
 
         //Interact with objects
+		if (c.gameObject.tag == "Player") {
+			//c.gameObject.GetComponent<Player> ().DamageReceived (damage);
+		} else if (c.gameObject.tag == "Enemy") {
+			c.gameObject.GetComponent<CharacterBase> ().DamageReceived (damage);
+		}
+
         //Player
         //Enemy
         //Environment?

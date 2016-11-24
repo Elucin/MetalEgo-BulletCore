@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 9ec9e4c24cfca0d4cbb6c2eceb42ae8c
-timeCreated: 1479409133
+guid: 1c9c7fe6a524341428c3d85050751d83
+timeCreated: 1480019299
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
-  fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: pSphere1
-    9500000: //RootNode
+  fileIDToRecycleName: {}
   materials:
     importMaterials: 1
     materialName: 0
@@ -18,7 +12,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
