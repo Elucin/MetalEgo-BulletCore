@@ -72,14 +72,14 @@ public class PlayerControl : MonoBehaviour {
 			//Fire right missiles
 		
 		if (Input.GetButton ("FireLeftMissile")) {
-			MissileLock(leftReticule.gameObject);
+			MissileLock(leftReticule.transform);
 			leftReticule.sprite = reticuleList [(int)Reticules.Missile];
 		}
 		else
 			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
 
 		if (Input.GetButton ("FireRightMissile")) {
-			MissileLock(rightReticule.gameObject);
+			MissileLock(rightReticule.transform);
 			rightReticule.sprite = reticuleList [(int)Reticules.Missile];
 		}
 		else
@@ -174,15 +174,14 @@ public class PlayerControl : MonoBehaviour {
 		} else if (!crouching && jumpPower == 0f) {
 			canJump = true;
 		}
-		
 	}
 
-	void MissileLock(GameObject ret)
+	void MissileLock(Transform ret)
 	{
 		GameObject[] allEnemies = GameObject.FindGameObjectsWithTag ("Enemy");
 			foreach (GameObject o in allEnemies) {
 				if (Vector3.Distance (transform.position, o.transform.position) < 1000f) {
-					if (Vector3.Angle (ret.transform.position - Camera.main.transform.position, o.transform.position - Camera.main.transform.position) < 5.5f) {
+					if (Vector3.Angle (ret.position - Camera.main.transform.position, o.transform.position - Camera.main.transform.position) < 5.5f) {
 						if (ret.name.Contains ("Left"))
 							o.GetComponent<MissileLockTest> ().leftMissileLock += Time.deltaTime;
 						else
