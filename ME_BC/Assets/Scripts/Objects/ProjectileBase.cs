@@ -46,6 +46,6 @@ public class ProjectileBase : MonoBehaviour {
         //Player
         //Enemy
         //Environment?
-        DestroyBullet();
+        //DestroyBullet();
     }
 }
