@@ -4,8 +4,8 @@ using System.Collections;
 public class ProjectileBase : MonoBehaviour {
 
     public GameObject impactParticles;
-	protected float speed;
-	protected float damage;
+	public float speed;
+	public float damage;
 
     public Transform emitter;
 	public Rigidbody rigidBody;
@@ -19,6 +19,7 @@ public class ProjectileBase : MonoBehaviour {
 	protected virtual void Start () {
 		rigidBody = GetComponent<Rigidbody> ();
         startTimer = Time.time;
+		lifetime = GetComponent<ParticleSystem>().startLifetime;
 		particleSys = GetComponent<ParticleSystem> ();
 	}
 	
@@ -39,6 +40,8 @@ public class ProjectileBase : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision c){
+
+
         //Interact with objects
         //Player
         //Enemy

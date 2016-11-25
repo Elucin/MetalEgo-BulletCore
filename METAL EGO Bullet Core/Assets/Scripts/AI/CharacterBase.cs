@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CharacterBase : MonoBehaviour {
 	
-	public string objectType = "character"; // type of opponent "kamakaza" "tank" "mech" "flying" 
+	public string objectType = "character"; // type of opponent "kamikaze" "tank" "mech" "flying" 
 	public float health = 100f; // Amount of health
 	public int attackPower = 10; // Player damage dealt
 	public int defensePower = 2; // Factor dividing projectiles attack power !!DONT TYPE AS ZERO!!
@@ -12,9 +12,12 @@ public class CharacterBase : MonoBehaviour {
 	public float currentSpeed = 1f; // Meters per second
 	public int threat = 1;
 	public int attackDistance = 20;
+	public float attackDelay = 2.0f;
 	//public Vector3 dest;
 	protected GameObject player;
 	private GameObject bulletPrefab;
+	//private float bulletSpeed;
+	protected float startTimer;
 
 	//public Animator animator;
 	//public Rigidbody body;
@@ -29,12 +32,13 @@ public class CharacterBase : MonoBehaviour {
 
 		agent = GetComponent<NavMeshAgent>();
 		agent.stoppingDistance = attackDistance;
+		agent.SetDestination (player.transform.position);
 
 	}
 	
 	// Update is called once per frame
 	public virtual void Update () {
-		agent.destination = player.transform.position; 
+		//agent.destination = player.transform.position; 
 		//dest = agent.destination;
 		Move ();
 		//agent.Move (GetVelocity);
@@ -56,9 +60,10 @@ public class CharacterBase : MonoBehaviour {
 	}
 
 
-	protected void Move()
+	protected virtual void Move()
 	{
-		agent.SetDestination (player.transform.position);
+		
+		//agent.SetDestination (player.transform.position);
 		agent.speed = maxSpeed;
 		agent.acceleration = acceleration;
 
@@ -78,23 +83,39 @@ public class CharacterBase : MonoBehaviour {
 
 	protected void Shoot()
 	{
-		Transform projectile;
-		float bulletSpeed = 6f;
+		//Transform projectile;
+
 
 		if (DistanceToPlayer () <= attackDistance) {
-			GameObject bullet = (GameObject)Instantiate (
-				                    bulletPrefab,
-				                    transform.position,
-				                    transform.rotation
-			                    );
+			
+				GameObject bullet = (GameObject)Instantiate (
+					                    bulletPrefab,
+					                    transform.position,
+										Quaternion.LookRotation(player.transform.position - transform.position)
+				                    );
+
+			bullet.GetComponent<ProjectileBase> ().damage = attackPower;
+			float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed = attackPower;
 			bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
 
-			Destroy (bullet, 0.5f);
+
+			//Destroy (bullet, 0.5f);
 		}
 
 	}
 
-	protected void Destruction()
+	protected void Melee()
+	{
+		if (DistanceToPlayer () <= attackDistance) {
+
+			//Attack animation Tigger
+			//player.GetComponent<Player>().Damage(attackPower);
+			Debug.Log("Player is being Meleed");
+
+		}
+	}
+
+	protected virtual void Destruction()
 	{
 		Destroy (gameObject);
 	}
