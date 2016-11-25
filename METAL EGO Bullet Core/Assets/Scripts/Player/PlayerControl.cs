@@ -178,10 +178,12 @@ public class PlayerControl : MonoBehaviour {
 
 	void MissileLock(Transform ret)
 	{
+		int targetsLocked = 0;
 		GameObject[] allEnemies = GameObject.FindGameObjectsWithTag ("Enemy");
 			foreach (GameObject o in allEnemies) {
-				if (Vector3.Distance (transform.position, o.transform.position) < 1000f) {
-					if (Vector3.Angle (ret.position - Camera.main.transform.position, o.transform.position - Camera.main.transform.position) < 5.5f) {
+			if (Vector3.Distance (transform.position, o.transform.position) < 1000f) {
+				if (Vector3.Angle (ret.position - Camera.main.transform.position, o.transform.position - Camera.main.transform.position) < 5.5f  && targetsLocked < 7) {
+						targetsLocked++;
 						if (ret.name.Contains ("Left"))
 							o.GetComponent<MissileLockTest> ().leftMissileLock += Time.deltaTime;
 						else

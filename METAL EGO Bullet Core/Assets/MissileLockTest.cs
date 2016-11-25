@@ -4,6 +4,7 @@ using System.Collections;
 public class MissileLockTest : MonoBehaviour {
 	public float leftMissileLock;
 	public float rightMissileLock;
+	public UnityEngine.UI.Image lockCircle;
 	int red;
 	int blue;
 	// Use this for initialization
@@ -23,6 +24,7 @@ public class MissileLockTest : MonoBehaviour {
 		if (!Input.GetButton ("FireLeftMissile"))
 			leftMissileLock = 0;
 
-		GetComponent<MeshRenderer> ().material.color = new Color (rightMissileLock, 0f, leftMissileLock);
+		lockCircle.color = new Color (rightMissileLock, 1f - (rightMissileLock + leftMissileLock), leftMissileLock);
+		lockCircle.fillAmount = rightMissileLock >= leftMissileLock ? rightMissileLock : leftMissileLock; 
 	}
 }
