@@ -10,6 +10,14 @@ public class PlayerControl : MonoBehaviour {
 	const int TARGET_SMOOTHING = 10;
 	public GameObject RightPivot;
 	public GameObject LeftPivot;
+	public SpriteRenderer leftReticule;
+	public SpriteRenderer rightReticule;
+	public Sprite[] reticuleList;
+	public enum Reticules : int
+	{
+		Gattling = 0,
+		Missile = 1
+	};
 
 	bool crouching;
 	bool canJump;
@@ -57,6 +65,25 @@ public class PlayerControl : MonoBehaviour {
 		
 		isGrounded = IsGrounded ();
 		Targeting ();
+
+		//if(Input.GetButtonUp("FireLeftMissile"))
+			//Fire left missiles
+		//if(Input.GetButtonUp("FireRightMissile"))
+			//Fire right missiles
+		
+		if (Input.GetButton ("FireLeftMissile")) {
+			MissileLock(leftReticule.transform);
+			leftReticule.sprite = reticuleList [(int)Reticules.Missile];
+		}
+		else
+			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
+
+		if (Input.GetButton ("FireRightMissile")) {
+			MissileLock(rightReticule.transform);
+			rightReticule.sprite = reticuleList [(int)Reticules.Missile];
+		}
+		else
+			rightReticule.sprite = reticuleList[(int)Reticules.Gattling];
 	}
 
 	void FixedUpdate()
@@ -147,16 +174,37 @@ public class PlayerControl : MonoBehaviour {
 		} else if (!crouching && jumpPower == 0f) {
 			canJump = true;
 		}
-		
 	}
+
+	void MissileLock(Transform ret)
+	{
+		int targetsLocked = 0;
+		GameObject[] allEnemies = GameObject.FindGameObjectsWithTag ("Enemy");
+			foreach (GameObject o in allEnemies) {
+			if (Vector3.Distance (transform.position, o.transform.position) < 1000f) {
+				if (Vector3.Angle (ret.position - Camera.main.transform.position, o.transform.position - Camera.main.transform.position) < 5.5f  && targetsLocked < 7) {
+						targetsLocked++;
+						if (ret.name.Contains ("Left"))
+							o.GetComponent<MissileLockTest> ().leftMissileLock += Time.deltaTime;
+						else
+							o.GetComponent<MissileLockTest> ().rightMissileLock += Time.deltaTime;
+					} else {
+						if (ret.name.Contains ("Left"))
+							o.GetComponent<MissileLockTest> ().leftMissileLock -= Time.deltaTime * 2;
+						else
+							o.GetComponent<MissileLockTest> ().rightMissileLock -= Time.deltaTime * 2;
+					}
+				} 
+			}
+	}
+
+
 
 	bool IsGrounded()
 	{
 		RaycastHit hit;
 		bool ray = Physics.Raycast (transform.position, -Vector3.up, out hit, 1.075f);
 		//bool ray =  Physics.SphereCast(transform.position, 0.5f, -transform.up, out hit , 0.07f);
-		if(hit.collider != null)
-			Debug.Log (hit.collider.transform.name);
 		return ray;
 	}
 }
