@@ -4,8 +4,8 @@ using System.Collections;
 public class ProjectileBase : MonoBehaviour {
 
     public GameObject impactParticles;
-	protected float speed;
-	protected float damage;
+	public float speed;
+	public float damage;
 
     public Transform emitter;
 	public Rigidbody rigidBody;
