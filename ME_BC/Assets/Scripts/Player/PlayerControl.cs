@@ -66,10 +66,10 @@ public class PlayerControl : MonoBehaviour {
 		isGrounded = IsGrounded ();
 		Targeting ();
 
-		//if(Input.GetButtonUp("FireLeftMissile"))
-			//Fire left missiles
-		//if(Input.GetButtonUp("FireRightMissile"))
-			//Fire right missiles
+		if (Input.GetButtonUp ("FireLeftMissile"))
+			MissileFire("left");
+		if(Input.GetButtonUp("FireRightMissile"))
+			MissileFire("right");
 		
 		if (Input.GetButton ("FireLeftMissile")) {
 			MissileLock(leftReticule.transform);
@@ -197,7 +197,6 @@ public class PlayerControl : MonoBehaviour {
 				} 
 			}
 	}
-
 
 
 	bool IsGrounded()
