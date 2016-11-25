@@ -1,5 +1,8 @@
 Base path: C:/Program Files/Unity/Editor/Data
 Cmd: getPlatforms
-Unhandled exception: Protocol error - failed to read correct magic number
-
-Quitting shader compiler process
+Cmd: preprocess
+  insize=9341 outsize=6556 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=3121 outsize=1145 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING ok=1
+Cmd: compileSnippet
+  api=4 type=1 insize=3121 outsize=1309 kw=DIRECTIONAL SHADOWS_OFF LIGHTMAP_OFF DIRLIGHTMAP_OFF DYNAMICLIGHTMAP_OFF pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING ok=1
