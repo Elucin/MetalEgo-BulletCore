@@ -5,6 +5,7 @@ public class AmmoDropSpawn : MonoBehaviour {
 
 	public float range = 40f;
 	public int points = 50;
+	public int dropHeight = 50;
 	private GameObject ammoPrefab;
 	private bool spawnAmmo = true;
 	void Start()
@@ -36,6 +37,8 @@ public class AmmoDropSpawn : MonoBehaviour {
 	{
 		Vector3 point;
 		if (RandomPoint(transform.position, range, out point)) {
+
+			point.y = point.y + dropHeight;
 			Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
 			GameObject ammo = (GameObject)Instantiate (
 				ammoPrefab,
