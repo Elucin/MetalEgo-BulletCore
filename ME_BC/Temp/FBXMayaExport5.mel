@@ -1,0 +1,22 @@
+print "Starting maya loading and fbx conversion \n";
+			
+if (`file -q -exists "C:/Users/rift/Desktop/METALE~1/ME_BC/Assets/Models/Rock09.mb"`)
+{
+	file -o "C:/Users/rift/Desktop/METALE~1/ME_BC/Assets/Models/Rock09.mb";
+	FBXExportEmbeddedTextures -v false;
+	// FBXExportHardEdges -v true;
+	FBXExportApplyConstantKeyReducer -v false;
+	FBXExportShowUI -v false;
+
+	print "Before fbx export\n";
+	FBXExport -f "C:/Users/rift/Desktop/METALE~1/ME_BC/Temp/ExportedFBXFile.fbx";
+	print "after fbx export\n";
+}
+else
+	print "Could not open Maya file.";
+
+system ("del \"C:\\Users\\rift\\Desktop\\METALE~1\\ME_BC\\Temp\\CommandPipe\"");
+
+$donepipeKill = `fopen "C:/Users/rift/Desktop/METALE~1/ME_BC/Temp/SyncPipeKill" "w"`;
+fwrite $donepipeKill "Done";
+fclose $donepipeKill;
