@@ -7,9 +7,9 @@ public class MissileScript : ProjectileBase {
 	float distance;
 	// Use this for initialization
 	void Awake () {
-		speed = 10f;
-		damage = 100f;
-		lifetime = 8f;
+		speed = 20f;
+		damage = 200f;
+		lifetime = 15f;
 	}
 
 	void Start()
@@ -20,7 +20,8 @@ public class MissileScript : ProjectileBase {
 	// Update is called once per frame
 	void Update () {
 		base.Update ();
-		transform.position = Vector3.Slerp(emitter.position, target.position, t / (distance / speed));
+		transform.position = Vector3.Lerp(emitter.position, target.position, t / (distance / speed));
 		t += Time.deltaTime;
 	}
+
 }

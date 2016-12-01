@@ -10,9 +10,9 @@ public class GatlingProjectile : ProjectileBase {
 	void Awake()
 	{
 		speed = 200f;
-		damage = 10f;
+		damage = 40f;
 		scaleLimit = 0.2f;
-		z = 5.0f;
+		z = 10.0f;
 		lifetime = 2f;
 	}
 

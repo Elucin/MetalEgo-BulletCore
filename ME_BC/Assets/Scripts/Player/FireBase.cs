@@ -14,6 +14,8 @@ public class FireBase : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if ((Input.GetButton ("FireRightMissile") && transform.name.Contains ("Right")) || (Input.GetButton ("FireLeftMissile") && transform.name.Contains ("Left")))
+			return;
 		if(Input.GetButton(controlButton) && readyToFire)
 		{
 			StartCoroutine (Cooldown ());

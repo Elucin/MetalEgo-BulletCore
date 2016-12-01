@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: 4eb84f88771c69944b96a6434be44747
-timeCreated: 1480106023
+timeCreated: 1480619963
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - impactParticles: {fileID: 147868, guid: 89fb178f35ab148468ceceda4cbf2b21, type: 2}
+  - emitter: {instanceID: 0}
+  - rigidBody: {instanceID: 0}
+  - target: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -21,6 +21,9 @@ public class PlayerControl : MonoBehaviour {
 		Missile = 1
 	};
 
+	public static int missileAmmo = 24;
+	private const int MAX_MISSILE_AMMO = 24;
+
 	bool crouching;
 	bool canJump;
 	float jumpPower;
@@ -76,6 +79,7 @@ public class PlayerControl : MonoBehaviour {
 			Debug.Log ("Fire Right");
 			rightMissile.MissileFire ("right");
 		}
+		missileAmmo = Mathf.Clamp (missileAmmo, 0, MAX_MISSILE_AMMO);
 		
 		if (Input.GetButton ("FireLeftMissile")) {
 			MissileLock(leftReticule.transform);
@@ -90,6 +94,7 @@ public class PlayerControl : MonoBehaviour {
 		}
 		else
 			rightReticule.sprite = reticuleList[(int)Reticules.Gattling];
+		
 	}
 
 	void FixedUpdate()

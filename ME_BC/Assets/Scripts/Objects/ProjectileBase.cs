@@ -36,16 +36,16 @@ public class ProjectileBase : MonoBehaviour {
     }
 
     void DestroyBullet(){
+		if(impactParticles != null)
+			Instantiate (impactParticles, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 
     void OnCollisionEnter(Collision c){
-
-
-        //Interact with objects
-        //Player
-        //Enemy
-        //Environment?
-        //DestroyBullet();
+		if (c.transform.tag == "Projectile" || emitter.transform.root == c.transform)
+			return;
+		if (c.transform.tag == "Enemy")
+			c.transform.GetComponent<CharacterBase> ().DamageReceived (damage);
+		DestroyBullet();
     }
 }
