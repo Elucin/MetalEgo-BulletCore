@@ -11,7 +11,7 @@ public class ProjectileBase : MonoBehaviour {
 	public Rigidbody rigidBody;
 
     private float startTimer;
-    protected float lifetime;
+    public float lifetime;
 	protected ParticleSystem particleSys;
 
 
@@ -47,5 +47,6 @@ public class ProjectileBase : MonoBehaviour {
 		if (c.transform.tag == "Enemy")
 			c.transform.GetComponent<CharacterBase> ().DamageReceived (damage);
 		DestroyBullet();
+
     }
 }
