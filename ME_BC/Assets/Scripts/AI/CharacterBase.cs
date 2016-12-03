@@ -18,6 +18,7 @@ public class CharacterBase : MonoBehaviour {
 	private GameObject bulletPrefab;
 	//private float bulletSpeed;
 	protected float startTimer;
+	public Transform emitter;
 
 	//public Animator animator;
 	//public Rigidbody body;
@@ -85,19 +86,20 @@ public class CharacterBase : MonoBehaviour {
 	{
 		//Transform projectile;
 
-
+		Debug.Log ("WE SHOT");
 		if (DistanceToPlayer () <= attackDistance) {
 			
 				GameObject bullet = (GameObject)Instantiate (
 					                    bulletPrefab,
 					                    transform.position,
-										Quaternion.LookRotation(player.transform.position - transform.position)
+				Quaternion.LookRotation(emitter.position - transform.position)
 				                    );
-
+		
 			bullet.GetComponent<ProjectileBase> ().damage = attackPower;
-			float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed = attackPower;
-			bullet.GetComponent<Rigidbody> ().velocity = bullet.transform.forward * bulletSpeed;
-
+			bullet.GetComponent<ProjectileBase> ().emitter = emitter;
+			//float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed = attackPower;
+			bullet.GetComponent<Rigidbody> ().velocity = emitter.forward * 10f;
+			bullet.GetComponent<ProjectileBase> ().lifetime = 6f;
 
 			//Destroy (bullet, 0.5f);
 		}

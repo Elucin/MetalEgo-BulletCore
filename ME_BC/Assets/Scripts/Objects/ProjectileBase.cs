@@ -11,7 +11,7 @@ public class ProjectileBase : MonoBehaviour {
 	public Rigidbody rigidBody;
 
     private float startTimer;
-    protected float lifetime;
+    public float lifetime;
 	protected ParticleSystem particleSys;
 
 
@@ -46,7 +46,7 @@ public class ProjectileBase : MonoBehaviour {
 		if (c.gameObject.tag == "Player") {
 			//c.gameObject.GetComponent<Player> ().DamageReceived (damage);
 		} else if (c.gameObject.tag == "Enemy") {
-			c.gameObject.GetComponent<CharacterBase> ().DamageReceived (damage);
+			//c.gameObject.GetComponent<CharacterBase> ().DamageReceived (damage);
 		}
 
         //Player

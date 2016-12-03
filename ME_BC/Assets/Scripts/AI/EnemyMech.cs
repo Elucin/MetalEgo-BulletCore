@@ -20,7 +20,7 @@ public class EnemyMech : CharacterBase {
 		//base.Attack ();
 
 		if (Time.time - base.startTimer >= base.attackDelay) {
-			base.Melee ();
+			base.Shoot ();
 			base.startTimer = Time.time;
 
 		}
