@@ -19,7 +19,7 @@ public class ProjectileBase : MonoBehaviour {
 	protected virtual void Start () {
 		rigidBody = GetComponent<Rigidbody> ();
         startTimer = Time.time;
-		lifetime = GetComponent<ParticleSystem>().startLifetime;
+		//lifetime = GetComponent<ParticleSystem>().startLifetime;
 		particleSys = GetComponent<ParticleSystem> ();
 	}
 	
@@ -52,6 +52,6 @@ public class ProjectileBase : MonoBehaviour {
         //Player
         //Enemy
         //Environment?
-        DestroyBullet();
+        //DestroyBullet();
     }
 }

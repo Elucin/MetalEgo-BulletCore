@@ -13,6 +13,8 @@ public class PlayerControl : MonoBehaviour {
 	public SpriteRenderer leftReticule;
 	public SpriteRenderer rightReticule;
 	public Sprite[] reticuleList;
+	public MissileEmit leftMissile;
+	public MissileEmit rightMissile;
 	public enum Reticules : int
 	{
 		Gattling = 0,
@@ -66,10 +68,14 @@ public class PlayerControl : MonoBehaviour {
 		isGrounded = IsGrounded ();
 		Targeting ();
 
-		//if(Input.GetButtonUp("FireLeftMissile"))
-			//Fire left missiles
-		//if(Input.GetButtonUp("FireRightMissile"))
-			//Fire right missiles
+		if (Input.GetButtonUp ("FireLeftMissile")) {
+			Debug.Log ("Fire Left");
+			leftMissile.MissileFire ("left");
+		}
+		if (Input.GetButtonUp ("FireRightMissile")) {
+			Debug.Log ("Fire Right");
+			rightMissile.MissileFire ("right");
+		}
 		
 		if (Input.GetButton ("FireLeftMissile")) {
 			MissileLock(leftReticule.transform);
@@ -197,7 +203,6 @@ public class PlayerControl : MonoBehaviour {
 				} 
 			}
 	}
-
 
 
 	bool IsGrounded()
