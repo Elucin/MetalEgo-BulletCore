@@ -176,11 +176,11 @@ public class PlayerControl : MonoBehaviour {
 			GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3 (0, 0, MAX_SPEED) * GetSpeedCoefficient ());
 		//GetComponent<Rigidbody> ().velocity = new Vector3 (rigidBody.velocity.x, yVel, rigidBody.velocity.z);
 		if (Input.GetAxis ("j3_X") > -0.5f && Input.GetAxis ("j3_Y") > -0.5f && Mathf.Abs (GetTurnCoefficient ()) < 0.6f) {
-			Camera.main.transform.localPosition = Vector3.Lerp (Camera.main.transform.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.localPosition.z), Time.time / 100f); 
+			//Camera.main.transform.parent.localPosition = Vector3.Lerp (Camera.main.transform.parent.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.parent.localPosition.z), Time.time / 100f); 
 			crouching = true;
 			rigidBody.angularVelocity = Vector3.zero;
 		} else {
-			Camera.main.transform.localPosition = Vector3.Lerp (Camera.main.transform.localPosition, new Vector3 (0, (1 - Mathf.Abs (Input.GetAxis ("j3_Z")) * 0.2f), Camera.main.transform.localPosition.z), Time.time / 50f); //Head Bob
+			//Camera.main.transform.parent.localPosition = Vector3.Lerp (Camera.main.transform.parent.localPosition, new Vector3 (0, (1 - Mathf.Abs (Input.GetAxis ("j3_Z")) * 0.2f), Camera.main.transform.parent.localPosition.z), Time.time / 50f); //Head Bob
 			rigidBody.angularVelocity = new Vector3 (0, -GetTurnCoefficient () / 2, 0);
 			crouching = false;
 		}
