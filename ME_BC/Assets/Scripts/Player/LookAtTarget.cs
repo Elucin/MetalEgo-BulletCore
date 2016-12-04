@@ -3,13 +3,13 @@ using System.Collections;
 
 public class LookAtTarget : MonoBehaviour {
 	public Transform target;
-	Camera cam;
+	Transform cam;
 
 
 
 	// Use this for initialization
 	void Start () {
-		cam = Camera.main;
+		cam = GameObject.Find("camPosition").transform;
 
 	}
 	
@@ -18,9 +18,9 @@ public class LookAtTarget : MonoBehaviour {
 		RaycastHit hit;
 		//Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height/2, 0));
 		//if (Physics.Raycast(target.position, target.TransformDirection(Vector3.forward), out hit, 10000f))
-		if (Physics.Raycast(cam.transform.position, (target.position - cam.transform.position).normalized, out hit, 10000f))
+		if (Physics.Raycast(cam.position, (target.position - cam.transform.position).normalized, out hit, 10000f))
 			transform.LookAt(hit.point);
 		else
-			transform.LookAt((target.position - cam.transform.position).normalized * 10000.0f - transform.position);
+			transform.LookAt((target.position - cam.position).normalized * 10000.0f - transform.position);
 	}
 }

@@ -8,21 +8,41 @@ public class PlayerControl : MonoBehaviour {
 	const float MAX_SPEED = 10f;
 	const float MAX_TURN_SPEED = 1f;
 	const int TARGET_SMOOTHING = 10;
+	const float MORTAR_Y_OFFSET = -0.06f;
+	const float Z_OFFSET = 0.1f;
 	public GameObject RightPivot;
 	public GameObject LeftPivot;
 	public SpriteRenderer leftReticule;
 	public SpriteRenderer rightReticule;
 	public Sprite[] reticuleList;
-	public MissileEmit leftMissile;
-	public MissileEmit rightMissile;
+	public ProjectileEmit leftProjectileEmitter;
+	public ProjectileEmit rightProjectileEmitter;
+
+	public static string playerName = "";
+	public static int playerScore = 0;
+
+	RaycastHit leftMortarHit;
+	RaycastHit rightMortarHit;
+
+	Transform camPosition;
+	public LayerMask convergenceMask;
 	public enum Reticules : int
 	{
-		Gattling = 0,
-		Missile = 1
+		Gatling = 0,
+		Missile = 1,
+		Mortar = 2,
+		Flak = 3
 	};
 
-	public static int missileAmmo = 24;
-	private const int MAX_MISSILE_AMMO = 24;
+	public static int missileAmmo = MAX_MISSILE_AMMO;
+	public const int MAX_MISSILE_AMMO = 25;
+
+	public static int mortarAmmo = MAX_MORTAR_AMMO;
+	public const int MAX_MORTAR_AMMO = 50;
+
+	public static int flakAmmo = MAX_FLAK_AMMO;
+	public const int MAX_FLAK_AMMO = 75;
+
 
 	bool crouching;
 	bool canJump;
@@ -50,6 +70,7 @@ public class PlayerControl : MonoBehaviour {
 		j2_xAxis = new System.Collections.Generic.List<float> ();
 		j2_yAxis = new System.Collections.Generic.List<float> ();
 		jumpPower = 0;
+		camPosition = GameObject.Find ("camPosition").transform;
 
 	}
 	
@@ -70,30 +91,48 @@ public class PlayerControl : MonoBehaviour {
 		
 		isGrounded = IsGrounded ();
 		Targeting ();
-
+		ConvergenceFix (leftReticule.transform);
+		ConvergenceFix (rightReticule.transform);
 		if (Input.GetButtonUp ("FireLeftMissile")) {
-			Debug.Log ("Fire Left");
-			leftMissile.MissileFire ("left");
+			leftProjectileEmitter.MissileFire ("left");
 		}
 		if (Input.GetButtonUp ("FireRightMissile")) {
-			Debug.Log ("Fire Right");
-			rightMissile.MissileFire ("right");
+			rightProjectileEmitter.MissileFire ("right");
 		}
+		if (Input.GetButtonUp ("FireLeftMortar")) {
+			leftProjectileEmitter.MortarFire (leftMortarHit, "left");
+		}
+		if (Input.GetButtonUp ("FireRightMortar")) {
+			rightProjectileEmitter.MortarFire (rightMortarHit, "right");
+		}
+
 		missileAmmo = Mathf.Clamp (missileAmmo, 0, MAX_MISSILE_AMMO);
+		mortarAmmo = Mathf.Clamp (mortarAmmo, 0, MAX_MORTAR_AMMO);
+		flakAmmo = Mathf.Clamp (flakAmmo, 0, MAX_FLAK_AMMO);
 		
 		if (Input.GetButton ("FireLeftMissile")) {
-			MissileLock(leftReticule.transform);
+			MissileLock (leftReticule.transform);
 			leftReticule.sprite = reticuleList [(int)Reticules.Missile];
+		} else if (Input.GetButton ("FireLeftMortar")) {
+			leftMortarHit = MortarTarget (leftReticule.transform);
+			leftReticule.sprite = reticuleList [(int)Reticules.Mortar];
+		} else if (Input.GetButton ("FireLeftFlak")) {
+			leftReticule.sprite = reticuleList [(int)Reticules.Flak];
 		}
 		else
-			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
+			leftReticule.sprite = reticuleList[(int)Reticules.Gatling];
 
 		if (Input.GetButton ("FireRightMissile")) {
-			MissileLock(rightReticule.transform);
+			MissileLock (rightReticule.transform);
 			rightReticule.sprite = reticuleList [(int)Reticules.Missile];
+		} else if (Input.GetButton ("FireRightMortar")) {
+			rightMortarHit = MortarTarget (rightReticule.transform);
+			rightReticule.sprite = reticuleList [(int)Reticules.Mortar];
+		} else if (Input.GetButton ("FireRightFlak")) {
+			rightReticule.sprite = reticuleList [(int)Reticules.Flak];
 		}
 		else
-			rightReticule.sprite = reticuleList[(int)Reticules.Gattling];
+			rightReticule.sprite = reticuleList[(int)Reticules.Gatling];
 		
 	}
 
@@ -101,7 +140,6 @@ public class PlayerControl : MonoBehaviour {
 	{
 		CrouchAndJump();
 		Movement ();
-
 	}
 
 	float GetSpeedCoefficient()
@@ -138,11 +176,11 @@ public class PlayerControl : MonoBehaviour {
 			GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3 (0, 0, MAX_SPEED) * GetSpeedCoefficient ());
 		//GetComponent<Rigidbody> ().velocity = new Vector3 (rigidBody.velocity.x, yVel, rigidBody.velocity.z);
 		if (Input.GetAxis ("j3_X") > -0.5f && Input.GetAxis ("j3_Y") > -0.5f && Mathf.Abs (GetTurnCoefficient ()) < 0.6f) {
-			Camera.main.transform.localPosition = Vector3.Lerp (Camera.main.transform.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.localPosition.z), Time.time / 100f); 
+			//Camera.main.transform.parent.localPosition = Vector3.Lerp (Camera.main.transform.parent.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.parent.localPosition.z), Time.time / 100f); 
 			crouching = true;
 			rigidBody.angularVelocity = Vector3.zero;
 		} else {
-			Camera.main.transform.localPosition = Vector3.Lerp (Camera.main.transform.localPosition, new Vector3 (0, (1 - Mathf.Abs (Input.GetAxis ("j3_Z")) * 0.2f), Camera.main.transform.localPosition.z), Time.time / 50f); //Head Bob
+			//Camera.main.transform.parent.localPosition = Vector3.Lerp (Camera.main.transform.parent.localPosition, new Vector3 (0, (1 - Mathf.Abs (Input.GetAxis ("j3_Z")) * 0.2f), Camera.main.transform.parent.localPosition.z), Time.time / 50f); //Head Bob
 			rigidBody.angularVelocity = new Vector3 (0, -GetTurnCoefficient () / 2, 0);
 			crouching = false;
 		}
@@ -152,8 +190,21 @@ public class PlayerControl : MonoBehaviour {
 
 	void Targeting()
 	{
-		RightPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j1_yAxis), 35 + 55 *  GetFloatListAverage(j1_xAxis), 0);
-		LeftPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j2_yAxis), 325 + 55 * GetFloatListAverage(j2_xAxis), 0);
+		float rightJoyAxis = GetFloatListAverage (j1_yAxis);
+		float leftJoyAxis = GetFloatListAverage (j2_yAxis);
+
+		if (Input.GetButton ("FireRightMortar"))
+			rightJoyAxis = Mathf.Clamp (rightJoyAxis, 0.01f, 0.95f);
+		else if(Input.GetButton("FireRightFlak"))
+			rightJoyAxis = Mathf.Clamp (rightJoyAxis, -1f, -0.2f);
+
+		if (Input.GetButton ("FireLeftMortar"))
+			leftJoyAxis = Mathf.Clamp (leftJoyAxis, 0.01f, 0.95f);
+		else if(Input.GetButton("FireLeftFlak"))
+			leftJoyAxis = Mathf.Clamp (leftJoyAxis, -1f, -0.2f);
+		
+		RightPivot.transform.localEulerAngles = new Vector3 (35 * rightJoyAxis, 35 + 55 *  GetFloatListAverage(j1_xAxis), 0);
+		LeftPivot.transform.localEulerAngles = new Vector3 (35 * leftJoyAxis, 325 + 55 * GetFloatListAverage(j2_xAxis), 0);
 	}
 
 	float GetFloatListAverage(System.Collections.Generic.List<float> list)
@@ -174,12 +225,10 @@ public class PlayerControl : MonoBehaviour {
 		if (crouching && jumpPower < 100.0f && canJump && isGrounded) {
 			jumpPower += 75f * Time.deltaTime;
 			jumpPower = Mathf.Clamp (jumpPower, 0, 100f);
-			Debug.Log (jumpPower);
 		} else if (!crouching && jumpPower > 0) {
 			GetComponent<Rigidbody> ().AddForce (transform.TransformDirection(new Vector3 (0, 150f, 75f) * jumpPower), ForceMode.Impulse);
 			jumpPower = 0f;
 		} else if (crouching && jumpPower >= 100.0f) {
-			Debug.Log ("Fizzle");
 			jumpPower = 0f;
 			canJump = false;
 		} else if (!crouching && jumpPower == 0f) {
@@ -193,7 +242,7 @@ public class PlayerControl : MonoBehaviour {
 		GameObject[] allEnemies = GameObject.FindGameObjectsWithTag ("Enemy");
 			foreach (GameObject o in allEnemies) {
 			if (Vector3.Distance (transform.position, o.transform.position) < 1000f) {
-				if (Vector3.Angle (ret.position - Camera.main.transform.position, o.transform.position - Camera.main.transform.position) < 5.5f  && targetsLocked < 7) {
+				if (Vector3.Angle (ret.position - camPosition.position, o.transform.position - camPosition.position) < 5.5f  && targetsLocked < 7) {
 						targetsLocked++;
 						if (ret.name.Contains ("Left"))
 							o.GetComponent<MissileLockTest> ().leftMissileLock += Time.deltaTime;
@@ -209,6 +258,27 @@ public class PlayerControl : MonoBehaviour {
 			}
 	}
 
+	RaycastHit MortarTarget(Transform ret)
+	{
+		RaycastHit hit;
+		Physics.Raycast (camPosition.position, (ret.transform.position) - camPosition.position, out hit, 1000f);
+		Debug.DrawLine (ret.transform.position, hit.point);
+		//Do Target Ring Stuff?
+		return hit;
+	}
+		
+	void ConvergenceFix(Transform ret)
+	{
+		RaycastHit hit;
+		Physics.SphereCast (camPosition.position, 1f, ret.transform.position - camPosition.position, out hit, 500f);
+		if (hit.transform != null) {
+			ret.localPosition = new Vector3 (ret.transform.localPosition.x, ret.transform.localPosition.y, Vector3.Distance (transform.TransformPoint (new Vector3 (ret.transform.localPosition.x, ret.transform.localPosition.y, 1f)), hit.point) - (1f + Z_OFFSET));
+		} else {
+			ret.localPosition = new Vector3 (ret.transform.localPosition.x, ret.transform.localPosition.y, 500f);
+
+		}
+		ret.localScale = Vector3.one * 0.03f * (ret.localPosition.z);
+	}
 
 	bool IsGrounded()
 	{

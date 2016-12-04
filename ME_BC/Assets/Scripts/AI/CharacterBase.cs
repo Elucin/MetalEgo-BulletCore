@@ -20,6 +20,18 @@ public class CharacterBase : MonoBehaviour {
 	protected float startTimer;
 	public Transform[] emitter;
 
+	enum Score
+	{
+		FLY = 100,
+		KAM = 50,
+		TAN = 200,
+		MEC = 500,
+		GAT = 5,
+		MIS = 20,
+		FLA = 5,
+		MOR = 10
+	};
+
 	//public Animator animator;
 	//public Rigidbody body;
 	protected NavMeshAgent agent;
@@ -67,9 +79,6 @@ public class CharacterBase : MonoBehaviour {
 		//agent.SetDestination (player.transform.position);
 		agent.speed = maxSpeed;
 		agent.acceleration = acceleration;
-
-
-
 
 	}
 
@@ -126,13 +135,33 @@ public class CharacterBase : MonoBehaviour {
 		Destroy (gameObject);
 	}
 
-	public void DamageReceived(float damage)
+	public void DamageReceived(float damage, string type)
 	{
 		health = health - (damage / defensePower);
+		if (type == "Gatling")
+			PlayerControl.playerScore += Score.GAT;
+		else if (type == "Missile")
+			PlayerControl.playerScore += Score.MIS;
+		else if (type == "Mortar")
+			PlayerControl.playerScore += Score.MOR;
+		else if (type == "Flak")
+			PlayerControl.playerScore += Score.FLA;
+		
 		if (health <= 0) {
+			KillPoints ();
 			Destruction ();
 		}
 	}
-
+	void KillPoints()
+	{
+		if (name.Contains ("Flying"))
+			PlayerControl.playerScore += Score.FLY;
+		else if (name.Contains ("Kami"))
+			PlayerControl.playerScore += Score.KAM;
+		else if (name.Contains ("Tank"))
+			PlayerControl.playerScore += Score.TAN;
+		else if (name.Contains ("Mech"))
+			PlayerControl.playerScore += Score.MEC;
+	}
 
 }

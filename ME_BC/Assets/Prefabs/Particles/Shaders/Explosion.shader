@@ -68,7 +68,7 @@ Shader "Shader Forge/NewShader" {
                 VertexOutput o = (VertexOutput)0;
                 o.uv0 = v.texcoord0;
                 o.vertexColor = v.vertexColor;
-                o.posWorld = mul(unity_ObjectToWorld, v.vertex);
+                o.posWorld = mul(_Object2World, v.vertex);
                 o.pos = mul(UNITY_MATRIX_MVP, v.vertex );
                 UNITY_TRANSFER_FOG(o,o.pos);
                 o.projPos = ComputeScreenPos (o.pos);

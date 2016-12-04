@@ -14,6 +14,7 @@ public class GatlingProjectile : ProjectileBase {
 		scaleLimit = 0.2f;
 		z = 10.0f;
 		lifetime = 2f;
+		type = "Gatling";
 	}
 
 	protected override void Start() {

@@ -10,6 +10,7 @@ public class MissileScript : ProjectileBase {
 		speed = 20f;
 		damage = 200f;
 		lifetime = 15f;
+		type = "Missile";
 	}
 
 	void Start()
@@ -20,7 +21,8 @@ public class MissileScript : ProjectileBase {
 	// Update is called once per frame
 	void Update () {
 		base.Update ();
-		transform.position = Vector3.Lerp(emitter.position, target.position, t / (distance / speed));
+		if(target != null)
+			transform.position = Vector3.Lerp(emitter.position, target.position, t / (distance / speed));
 		t += Time.deltaTime;
 	}
 
