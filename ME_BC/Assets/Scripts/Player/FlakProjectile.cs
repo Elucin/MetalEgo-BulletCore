@@ -21,6 +21,7 @@ public class FlakProjectile : ProjectileBase {
 		z = 10.0f;
 		lifetime = Random.Range(0.5f, 1.5f);
 		startTime = Time.time;
+		type = "Flak";
 	}
 
 	protected override void Start() {
@@ -61,7 +62,7 @@ public class FlakProjectile : ProjectileBase {
 			StartCoroutine (DelayDestroy ());
 			startTime = Time.time;
 		} else if (detonate && c.CompareTag("Enemy") && Time.time - startTime < explodeTime)
-			c.gameObject.GetComponent<CharacterBase> ().DamageReceived (damage);
+			c.gameObject.GetComponent<CharacterBase> ().DamageReceived (damage, type);
 
 	}
 

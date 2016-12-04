@@ -9,6 +9,7 @@ public class PlayerControl : MonoBehaviour {
 	const float MAX_TURN_SPEED = 1f;
 	const int TARGET_SMOOTHING = 10;
 	const float MORTAR_Y_OFFSET = -0.06f;
+	const float Z_OFFSET = 0.1f;
 	public GameObject RightPivot;
 	public GameObject LeftPivot;
 	public SpriteRenderer leftReticule;
@@ -17,22 +18,27 @@ public class PlayerControl : MonoBehaviour {
 	public ProjectileEmit leftProjectileEmitter;
 	public ProjectileEmit rightProjectileEmitter;
 
+	public static string playerName = "";
+	public static int playerScore = 0;
+
 	RaycastHit leftMortarHit;
 	RaycastHit rightMortarHit;
 
+	Transform camPosition;
+	public LayerMask convergenceMask;
 	public enum Reticules : int
 	{
-		Gattling = 0,
+		Gatling = 0,
 		Missile = 1,
 		Mortar = 2,
 		Flak = 3
 	};
 
 	public static int missileAmmo = MAX_MISSILE_AMMO;
-	private const int MAX_MISSILE_AMMO = 25;
+	public const int MAX_MISSILE_AMMO = 25;
 
 	public static int mortarAmmo = MAX_MORTAR_AMMO;
-	private const int MAX_MORTAR_AMMO = 50;
+	public const int MAX_MORTAR_AMMO = 50;
 
 	public static int flakAmmo = MAX_FLAK_AMMO;
 	public const int MAX_FLAK_AMMO = 75;
@@ -64,6 +70,7 @@ public class PlayerControl : MonoBehaviour {
 		j2_xAxis = new System.Collections.Generic.List<float> ();
 		j2_yAxis = new System.Collections.Generic.List<float> ();
 		jumpPower = 0;
+		camPosition = GameObject.Find ("camPosition").transform;
 
 	}
 	
@@ -84,7 +91,8 @@ public class PlayerControl : MonoBehaviour {
 		
 		isGrounded = IsGrounded ();
 		Targeting ();
-
+		ConvergenceFix (leftReticule.transform);
+		ConvergenceFix (rightReticule.transform);
 		if (Input.GetButtonUp ("FireLeftMissile")) {
 			leftProjectileEmitter.MissileFire ("left");
 		}
@@ -112,7 +120,7 @@ public class PlayerControl : MonoBehaviour {
 			leftReticule.sprite = reticuleList [(int)Reticules.Flak];
 		}
 		else
-			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
+			leftReticule.sprite = reticuleList[(int)Reticules.Gatling];
 
 		if (Input.GetButton ("FireRightMissile")) {
 			MissileLock (rightReticule.transform);
@@ -124,7 +132,7 @@ public class PlayerControl : MonoBehaviour {
 			rightReticule.sprite = reticuleList [(int)Reticules.Flak];
 		}
 		else
-			rightReticule.sprite = reticuleList[(int)Reticules.Gattling];
+			rightReticule.sprite = reticuleList[(int)Reticules.Gatling];
 		
 	}
 
@@ -234,7 +242,7 @@ public class PlayerControl : MonoBehaviour {
 		GameObject[] allEnemies = GameObject.FindGameObjectsWithTag ("Enemy");
 			foreach (GameObject o in allEnemies) {
 			if (Vector3.Distance (transform.position, o.transform.position) < 1000f) {
-				if (Vector3.Angle (ret.position - Camera.main.transform.position, o.transform.position - Camera.main.transform.position) < 5.5f  && targetsLocked < 7) {
+				if (Vector3.Angle (ret.position - camPosition.position, o.transform.position - camPosition.position) < 5.5f  && targetsLocked < 7) {
 						targetsLocked++;
 						if (ret.name.Contains ("Left"))
 							o.GetComponent<MissileLockTest> ().leftMissileLock += Time.deltaTime;
@@ -253,13 +261,24 @@ public class PlayerControl : MonoBehaviour {
 	RaycastHit MortarTarget(Transform ret)
 	{
 		RaycastHit hit;
-		Physics.Raycast (Camera.main.transform.position, (ret.transform.position) - Camera.main.transform.position, out hit, 1000f);
+		Physics.Raycast (camPosition.position, (ret.transform.position) - camPosition.position, out hit, 1000f);
 		Debug.DrawLine (ret.transform.position, hit.point);
 		//Do Target Ring Stuff?
 		return hit;
 	}
 		
+	void ConvergenceFix(Transform ret)
+	{
+		RaycastHit hit;
+		Physics.SphereCast (camPosition.position, 1f, ret.transform.position - camPosition.position, out hit, 500f);
+		if (hit.transform != null) {
+			ret.localPosition = new Vector3 (ret.transform.localPosition.x, ret.transform.localPosition.y, Vector3.Distance (transform.TransformPoint (new Vector3 (ret.transform.localPosition.x, ret.transform.localPosition.y, 1f)), hit.point) - (1f + Z_OFFSET));
+		} else {
+			ret.localPosition = new Vector3 (ret.transform.localPosition.x, ret.transform.localPosition.y, 500f);
 
+		}
+		ret.localScale = Vector3.one * 0.03f * (ret.localPosition.z);
+	}
 
 	bool IsGrounded()
 	{

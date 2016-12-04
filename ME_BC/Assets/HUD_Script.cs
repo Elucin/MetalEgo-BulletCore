@@ -5,6 +5,7 @@ public class HUD_Script : MonoBehaviour {
 	public UnityEngine.UI.Text missileAmmo;
 	public UnityEngine.UI.Text mortarAmmo;
 	public UnityEngine.UI.Text flakAmmo;
+	public UnityEngine.UI.Text Score;
 
 	// Use this for initialization
 	void Start () {
@@ -16,5 +17,6 @@ public class HUD_Script : MonoBehaviour {
 		missileAmmo.text = "Missile Ammo: " + PlayerControl.missileAmmo.ToString ();
 		mortarAmmo.text = "Mortar Ammo: " + PlayerControl.mortarAmmo.ToString ();
 		flakAmmo.text = "Flak Ammo: " + PlayerControl.flakAmmo.ToString ();
+		Score.text = "Score: " + PlayerControl.playerScore.ToString ();
 	}
 }

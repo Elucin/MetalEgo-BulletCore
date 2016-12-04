@@ -17,7 +17,7 @@ public class MortarProjectile : ProjectileBase {
 		damage = 200f;
 		speed = 50f;
 		gravity = -30f;
-
+		type = "Mortar";
 		float t1;
 		float viy = speed;
 		float a = gravity;
@@ -63,7 +63,7 @@ public class MortarProjectile : ProjectileBase {
 	{
 		if(c.CompareTag("Enemy") && Time.time - startTime < explodeTime)
 		{
-			c.GetComponent<CharacterBase>().DamageReceived( damage * ( 1.2f - explosionRadius.radius / maxExplosionRadius));
+			c.GetComponent<CharacterBase>().DamageReceived( damage * ( 1.2f - explosionRadius.radius / maxExplosionRadius), type);
 		}
 	}
 
