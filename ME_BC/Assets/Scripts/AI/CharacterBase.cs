@@ -18,7 +18,7 @@ public class CharacterBase : MonoBehaviour {
 	private GameObject bulletPrefab;
 	//private float bulletSpeed;
 	protected float startTimer;
-	public Transform emitter;
+	public Transform[] emitter;
 
 	//public Animator animator;
 	//public Rigidbody body;
@@ -86,19 +86,23 @@ public class CharacterBase : MonoBehaviour {
 	{
 		//Transform projectile;
 
-		Debug.Log ("WE SHOT");
+		int emitIndex = 0;
+		if (emitter.Length > 1) {
+			emitIndex = Random.Range (0, emitter.Length);
+		}
+
 		if (DistanceToPlayer () <= attackDistance) {
 			
 				GameObject bullet = (GameObject)Instantiate (
 					                    bulletPrefab,
-					                    transform.position,
-				Quaternion.LookRotation(emitter.position - transform.position)
+				emitter[emitIndex].position,
+				Quaternion.LookRotation(emitter[emitIndex].position - transform.position)
 				                    );
 		
 			bullet.GetComponent<ProjectileBase> ().damage = attackPower;
-			bullet.GetComponent<ProjectileBase> ().emitter = emitter;
+			bullet.GetComponent<ProjectileBase> ().emitter = emitter[emitIndex];
 			//float bulletSpeed = bullet.GetComponent<ProjectileBase> ().speed = attackPower;
-			bullet.GetComponent<Rigidbody> ().velocity = emitter.forward * 10f;
+			bullet.GetComponent<Rigidbody> ().velocity = emitter[emitIndex].forward * 10f;
 			bullet.GetComponent<ProjectileBase> ().lifetime = 6f;
 
 			//Destroy (bullet, 0.5f);

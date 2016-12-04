@@ -40,12 +40,14 @@ public class Flying : CharacterBase {
 		
 
 		if (Time.time - base.startTimer >= base.attackDelay) {
-			//Vector3 angle = Vector3.Angle(transform.position - player.transform.position, transform.forward); 
-			//if (Math.Abs(angle) < 45) {
-			//	Debug.Log ("Facing player");
-			//}
-			base.Shoot ();
-			base.startTimer = Time.time;
+			float angle = Vector3.Angle (player.transform.position - transform.position, transform.forward);
+			///Debug.Log (angle);
+			if ( Mathf.Abs(angle) < 45) {
+				//Debug.Log ("Facing player");
+			
+				base.Shoot ();
+				base.startTimer = Time.time;
+			}
 
 		}
 

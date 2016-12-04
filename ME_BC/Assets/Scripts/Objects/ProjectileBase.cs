@@ -42,6 +42,8 @@ public class ProjectileBase : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision c){
+
+		Debug.Log ("Collided " + c.transform.name);
 		if (c.transform.tag == "Projectile" || emitter.transform.root == c.transform)
 			return;
 		if (c.transform.tag == "Enemy")
