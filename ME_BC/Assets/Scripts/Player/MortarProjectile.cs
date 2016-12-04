@@ -9,7 +9,7 @@ public class MortarProjectile : ProjectileBase {
 	float startTime;
 	float explodeTime = 0.1f;
 	public SphereCollider explosionRadius;
-	float maxExplosionRadius = 40f;
+	float maxExplosionRadius = 15f;
 	bool detonate = false;
 	// Use this for initialization
 	void Start () {
@@ -38,7 +38,7 @@ public class MortarProjectile : ProjectileBase {
 	void Update () {
 		GetComponent<Rigidbody> ().AddForce (Vector3.up * gravity);
 		if(detonate)
-			explosionRadius.radius = maxExplosionRadius * (Time.time - startTime);
+			explosionRadius.radius = maxExplosionRadius * ((Time.time - startTime) / explodeTime);
 	}
 
 	void OnCollisionEnter(Collision c)

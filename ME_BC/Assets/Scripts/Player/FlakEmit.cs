@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FireBase : MonoBehaviour {
+public class FlakEmit : MonoBehaviour {
+
 	public GameObject bullet;
 	public string controlButton; 
 	public float cooldown;
@@ -11,16 +12,18 @@ public class FireBase : MonoBehaviour {
 	void Start () {
 		readyToFire = true;
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		if ((Input.GetButton ("FireRightMissile") && transform.name.Contains ("Right")) || (Input.GetButton ("FireLeftMissile") && transform.name.Contains ("Left")))
+		if (((Input.GetButton ("FireRightMissile") || (Input.GetButton ("FireRightMortar")) || Input.GetButton ("FireRightGatling")) && transform.name.Contains ("Right")) || 
+			((Input.GetButton ("FireLeftMissile") || (Input.GetButton ("FireLeftMortar")) || Input.GetButton ("FireLeftGatling")) && transform.name.Contains ("Left")))
 			return;
-		if(Input.GetButton(controlButton) && readyToFire)
+		if(Input.GetButton(controlButton) && readyToFire && PlayerControl.flakAmmo > 0)
 		{
 			StartCoroutine (Cooldown ());
 			GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation) as GameObject;
 			newBullet.GetComponent<ProjectileBase> ().emitter = transform;
+			PlayerControl.flakAmmo--;
 		}
 	}
 

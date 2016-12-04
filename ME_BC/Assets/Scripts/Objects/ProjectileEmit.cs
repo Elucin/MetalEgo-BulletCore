@@ -33,7 +33,7 @@ public class ProjectileEmit : MonoBehaviour {
 
 	public void MortarFire(RaycastHit hit, string side)
 	{
-		if (PlayerControl.mortarAmmo <= 0)
+		if (PlayerControl.mortarAmmo <= 0 || hit.transform == null)
 			return;
 
 		GameObject newMortar = Instantiate (mortar, transform.position, Quaternion.identity) as GameObject;

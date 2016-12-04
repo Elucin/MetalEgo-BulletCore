@@ -10,7 +10,7 @@ public class ProjectileBase : MonoBehaviour {
     public Transform emitter;
 	public Rigidbody rigidBody;
 
-    private float startTimer;
+    protected float startTimer;
     public float lifetime;
 	protected ParticleSystem particleSys;
 

@@ -24,14 +24,18 @@ public class PlayerControl : MonoBehaviour {
 	{
 		Gattling = 0,
 		Missile = 1,
-		Mortar = 2
+		Mortar = 2,
+		Flak = 3
 	};
 
-	public static int missileAmmo = 24;
-	private const int MAX_MISSILE_AMMO = 24;
+	public static int missileAmmo = MAX_MISSILE_AMMO;
+	private const int MAX_MISSILE_AMMO = 25;
 
-	public static int mortarAmmo = 50;
+	public static int mortarAmmo = MAX_MORTAR_AMMO;
 	private const int MAX_MORTAR_AMMO = 50;
+
+	public static int flakAmmo = MAX_FLAK_AMMO;
+	public const int MAX_FLAK_AMMO = 75;
 
 
 	bool crouching;
@@ -96,25 +100,28 @@ public class PlayerControl : MonoBehaviour {
 
 		missileAmmo = Mathf.Clamp (missileAmmo, 0, MAX_MISSILE_AMMO);
 		mortarAmmo = Mathf.Clamp (mortarAmmo, 0, MAX_MORTAR_AMMO);
+		flakAmmo = Mathf.Clamp (flakAmmo, 0, MAX_FLAK_AMMO);
 		
 		if (Input.GetButton ("FireLeftMissile")) {
 			MissileLock (leftReticule.transform);
 			leftReticule.sprite = reticuleList [(int)Reticules.Missile];
-		} 
-		else if (Input.GetButton ("FireLeftMortar")) {
+		} else if (Input.GetButton ("FireLeftMortar")) {
 			leftMortarHit = MortarTarget (leftReticule.transform);
 			leftReticule.sprite = reticuleList [(int)Reticules.Mortar];
+		} else if (Input.GetButton ("FireLeftFlak")) {
+			leftReticule.sprite = reticuleList [(int)Reticules.Flak];
 		}
 		else
 			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
 
 		if (Input.GetButton ("FireRightMissile")) {
-			MissileLock(rightReticule.transform);
+			MissileLock (rightReticule.transform);
 			rightReticule.sprite = reticuleList [(int)Reticules.Missile];
-		}
-		else if (Input.GetButton ("FireRightMortar")) {
+		} else if (Input.GetButton ("FireRightMortar")) {
 			rightMortarHit = MortarTarget (rightReticule.transform);
 			rightReticule.sprite = reticuleList [(int)Reticules.Mortar];
+		} else if (Input.GetButton ("FireRightFlak")) {
+			rightReticule.sprite = reticuleList [(int)Reticules.Flak];
 		}
 		else
 			rightReticule.sprite = reticuleList[(int)Reticules.Gattling];
@@ -179,10 +186,14 @@ public class PlayerControl : MonoBehaviour {
 		float leftJoyAxis = GetFloatListAverage (j2_yAxis);
 
 		if (Input.GetButton ("FireRightMortar"))
-			rightJoyAxis = Mathf.Clamp (rightJoyAxis, 0.18f, 0.95f);
+			rightJoyAxis = Mathf.Clamp (rightJoyAxis, 0.01f, 0.95f);
+		else if(Input.GetButton("FireRightFlak"))
+			rightJoyAxis = Mathf.Clamp (rightJoyAxis, -1f, -0.2f);
 
 		if (Input.GetButton ("FireLeftMortar"))
-			leftJoyAxis = Mathf.Clamp (leftJoyAxis, 0.18f, 0.95f);
+			leftJoyAxis = Mathf.Clamp (leftJoyAxis, 0.01f, 0.95f);
+		else if(Input.GetButton("FireLeftFlak"))
+			leftJoyAxis = Mathf.Clamp (leftJoyAxis, -1f, -0.2f);
 		
 		RightPivot.transform.localEulerAngles = new Vector3 (35 * rightJoyAxis, 35 + 55 *  GetFloatListAverage(j1_xAxis), 0);
 		LeftPivot.transform.localEulerAngles = new Vector3 (35 * leftJoyAxis, 325 + 55 * GetFloatListAverage(j2_xAxis), 0);
@@ -242,11 +253,12 @@ public class PlayerControl : MonoBehaviour {
 	RaycastHit MortarTarget(Transform ret)
 	{
 		RaycastHit hit;
-		Physics.Raycast (Camera.main.transform.position, (ret.transform.position + ret.transform.up * MORTAR_Y_OFFSET) - Camera.main.transform.position, out hit, 1000f);
+		Physics.Raycast (Camera.main.transform.position, (ret.transform.position) - Camera.main.transform.position, out hit, 1000f);
 		Debug.DrawLine (ret.transform.position, hit.point);
 		//Do Target Ring Stuff?
 		return hit;
 	}
+		
 
 
 	bool IsGrounded()
