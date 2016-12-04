@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MissileEmit : MonoBehaviour {
+public class ProjectileEmit : MonoBehaviour {
 
 	public GameObject missile;
+	public GameObject mortar;
 
 	public void MissileFire(string side)
 	{
@@ -28,5 +29,18 @@ public class MissileEmit : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	public void MortarFire(RaycastHit hit, string side)
+	{
+		if (PlayerControl.mortarAmmo <= 0)
+			return;
+
+		GameObject newMortar = Instantiate (mortar, transform.position, Quaternion.identity) as GameObject;
+		PlayerControl.mortarAmmo--;
+		newMortar.GetComponent<MortarProjectile> ().target = hit.point;
+		newMortar.GetComponent<MortarProjectile> ().origin = transform.position;
+		newMortar.GetComponent<MortarProjectile> ().emitter = transform;
+
 	}
 }

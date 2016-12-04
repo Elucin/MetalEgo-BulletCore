@@ -85,8 +85,6 @@ public class CharacterBase : MonoBehaviour {
 	protected void Shoot()
 	{
 		//Transform projectile;
-
-		Debug.Log ("WE SHOT");
 		if (DistanceToPlayer () <= attackDistance) {
 			
 				GameObject bullet = (GameObject)Instantiate (

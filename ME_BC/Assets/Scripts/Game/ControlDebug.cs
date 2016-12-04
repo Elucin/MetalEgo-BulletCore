@@ -20,9 +20,9 @@ public class ControlDebug : MonoBehaviour {
 
 	void DebugJoy1()
 	{
-		if (Input.GetButtonDown ("j1_b0"))
+		if (Input.GetButtonDown ("FireRightGatling"))
 			Debug.Log ("Right - Button 0");
-		if (Input.GetButtonDown ("j1_b1"))
+		if (Input.GetButtonDown ("FireRightMissile"))
 			Debug.Log ("Right - Button 1");
 		if (Input.GetButtonDown ("j1_b2"))
 			Debug.Log ("Right - Button 2");
@@ -43,9 +43,9 @@ public class ControlDebug : MonoBehaviour {
 
 	void DebugJoy2()
 	{
-		if (Input.GetButtonDown ("j2_b0"))
+		if (Input.GetButtonDown ("FireLeftGatling"))
 			Debug.Log ("Left - Button 0");
-		if (Input.GetButtonDown ("j2_b1"))
+		if (Input.GetButtonDown ("FireLeftMissile"))
 			Debug.Log ("Left - Button 1");
 		if (Input.GetButtonDown ("j2_b2"))
 			Debug.Log ("Left - Button 2");

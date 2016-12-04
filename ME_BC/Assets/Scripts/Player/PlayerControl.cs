@@ -8,21 +8,31 @@ public class PlayerControl : MonoBehaviour {
 	const float MAX_SPEED = 10f;
 	const float MAX_TURN_SPEED = 1f;
 	const int TARGET_SMOOTHING = 10;
+	const float MORTAR_Y_OFFSET = -0.06f;
 	public GameObject RightPivot;
 	public GameObject LeftPivot;
 	public SpriteRenderer leftReticule;
 	public SpriteRenderer rightReticule;
 	public Sprite[] reticuleList;
-	public MissileEmit leftMissile;
-	public MissileEmit rightMissile;
+	public ProjectileEmit leftProjectileEmitter;
+	public ProjectileEmit rightProjectileEmitter;
+
+	RaycastHit leftMortarHit;
+	RaycastHit rightMortarHit;
+
 	public enum Reticules : int
 	{
 		Gattling = 0,
-		Missile = 1
+		Missile = 1,
+		Mortar = 2
 	};
 
 	public static int missileAmmo = 24;
 	private const int MAX_MISSILE_AMMO = 24;
+
+	public static int mortarAmmo = 50;
+	private const int MAX_MORTAR_AMMO = 50;
+
 
 	bool crouching;
 	bool canJump;
@@ -72,18 +82,28 @@ public class PlayerControl : MonoBehaviour {
 		Targeting ();
 
 		if (Input.GetButtonUp ("FireLeftMissile")) {
-			Debug.Log ("Fire Left");
-			leftMissile.MissileFire ("left");
+			leftProjectileEmitter.MissileFire ("left");
 		}
 		if (Input.GetButtonUp ("FireRightMissile")) {
-			Debug.Log ("Fire Right");
-			rightMissile.MissileFire ("right");
+			rightProjectileEmitter.MissileFire ("right");
 		}
+		if (Input.GetButtonUp ("FireLeftMortar")) {
+			leftProjectileEmitter.MortarFire (leftMortarHit, "left");
+		}
+		if (Input.GetButtonUp ("FireRightMortar")) {
+			rightProjectileEmitter.MortarFire (rightMortarHit, "right");
+		}
+
 		missileAmmo = Mathf.Clamp (missileAmmo, 0, MAX_MISSILE_AMMO);
+		mortarAmmo = Mathf.Clamp (mortarAmmo, 0, MAX_MORTAR_AMMO);
 		
 		if (Input.GetButton ("FireLeftMissile")) {
-			MissileLock(leftReticule.transform);
+			MissileLock (leftReticule.transform);
 			leftReticule.sprite = reticuleList [(int)Reticules.Missile];
+		} 
+		else if (Input.GetButton ("FireLeftMortar")) {
+			leftMortarHit = MortarTarget (leftReticule.transform);
+			leftReticule.sprite = reticuleList [(int)Reticules.Mortar];
 		}
 		else
 			leftReticule.sprite = reticuleList[(int)Reticules.Gattling];
@@ -91,6 +111,10 @@ public class PlayerControl : MonoBehaviour {
 		if (Input.GetButton ("FireRightMissile")) {
 			MissileLock(rightReticule.transform);
 			rightReticule.sprite = reticuleList [(int)Reticules.Missile];
+		}
+		else if (Input.GetButton ("FireRightMortar")) {
+			rightMortarHit = MortarTarget (rightReticule.transform);
+			rightReticule.sprite = reticuleList [(int)Reticules.Mortar];
 		}
 		else
 			rightReticule.sprite = reticuleList[(int)Reticules.Gattling];
@@ -101,7 +125,6 @@ public class PlayerControl : MonoBehaviour {
 	{
 		CrouchAndJump();
 		Movement ();
-
 	}
 
 	float GetSpeedCoefficient()
@@ -152,8 +175,17 @@ public class PlayerControl : MonoBehaviour {
 
 	void Targeting()
 	{
-		RightPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j1_yAxis), 35 + 55 *  GetFloatListAverage(j1_xAxis), 0);
-		LeftPivot.transform.localEulerAngles = new Vector3 (35 * GetFloatListAverage(j2_yAxis), 325 + 55 * GetFloatListAverage(j2_xAxis), 0);
+		float rightJoyAxis = GetFloatListAverage (j1_yAxis);
+		float leftJoyAxis = GetFloatListAverage (j2_yAxis);
+
+		if (Input.GetButton ("FireRightMortar"))
+			rightJoyAxis = Mathf.Clamp (rightJoyAxis, 0.18f, 0.95f);
+
+		if (Input.GetButton ("FireLeftMortar"))
+			leftJoyAxis = Mathf.Clamp (leftJoyAxis, 0.18f, 0.95f);
+		
+		RightPivot.transform.localEulerAngles = new Vector3 (35 * rightJoyAxis, 35 + 55 *  GetFloatListAverage(j1_xAxis), 0);
+		LeftPivot.transform.localEulerAngles = new Vector3 (35 * leftJoyAxis, 325 + 55 * GetFloatListAverage(j2_xAxis), 0);
 	}
 
 	float GetFloatListAverage(System.Collections.Generic.List<float> list)
@@ -174,12 +206,10 @@ public class PlayerControl : MonoBehaviour {
 		if (crouching && jumpPower < 100.0f && canJump && isGrounded) {
 			jumpPower += 75f * Time.deltaTime;
 			jumpPower = Mathf.Clamp (jumpPower, 0, 100f);
-			Debug.Log (jumpPower);
 		} else if (!crouching && jumpPower > 0) {
 			GetComponent<Rigidbody> ().AddForce (transform.TransformDirection(new Vector3 (0, 150f, 75f) * jumpPower), ForceMode.Impulse);
 			jumpPower = 0f;
 		} else if (crouching && jumpPower >= 100.0f) {
-			Debug.Log ("Fizzle");
 			jumpPower = 0f;
 			canJump = false;
 		} else if (!crouching && jumpPower == 0f) {
@@ -207,6 +237,15 @@ public class PlayerControl : MonoBehaviour {
 					}
 				} 
 			}
+	}
+
+	RaycastHit MortarTarget(Transform ret)
+	{
+		RaycastHit hit;
+		Physics.Raycast (Camera.main.transform.position, (ret.transform.position + ret.transform.up * MORTAR_Y_OFFSET) - Camera.main.transform.position, out hit, 1000f);
+		Debug.DrawLine (ret.transform.position, hit.point);
+		//Do Target Ring Stuff?
+		return hit;
 	}
 
 
