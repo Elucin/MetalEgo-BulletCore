@@ -20,7 +20,7 @@ public class EnemySpawning : MonoBehaviour {
 	bool RandomPoint(Vector3 center, float range, out Vector3 result) 
 	{
 		for (int i = 0; i < 30; i++) {
-			Vector3 randomPoint = center + Random.insideUnitSphere * range;
+			Vector3 randomPoint = center + Random.onUnitSphere * range;
 			NavMeshHit hit;
 			if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) {
 				result = hit.position;
@@ -43,7 +43,7 @@ public class EnemySpawning : MonoBehaviour {
 		if (RandomPoint(player.transform.position, 50, out point)) {
 
 			int spawnEnemyIndex = Random.Range (0, enemy.Length-1);
-			//Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+			Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
 			/*GameObject ammo = (GameObject)*/
 			Instantiate (
 				enemy[spawnEnemyIndex],
