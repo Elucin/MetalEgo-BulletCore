@@ -10,10 +10,9 @@ public class ProjectileBase : MonoBehaviour {
     public Transform emitter;
 	public Rigidbody rigidBody;
 
-    protected float startTimer;
+    private float startTimer;
     public float lifetime;
 	protected ParticleSystem particleSys;
-	protected string type;
 
 
 	// Use this for initialization
@@ -44,17 +43,16 @@ public class ProjectileBase : MonoBehaviour {
 
     void OnCollisionEnter(Collision c){
 
-		Debug.Log ("Collided " + c.transform.name);
+		//Debug.Log ("Collided " + c.transform.name);
 		if (emitter != null) {
 			if (emitter.transform.root == c.transform)
 				return;
 		}
 		if (c.transform.tag == "Projectile")
 			return;
-		if (c.transform.tag == "Enemy")
-			c.transform.GetComponent<CharacterBase> ().DamageReceived (damage, type);
-		DestroyBullet();
-
+		if (c.transform.tag == "Enemy" && emitter.transform.root.transform.tag != "Enemy")
+			c.transform.GetComponent<CharacterBase> ().DamageReceived (damage);
+		DestroyBullet ();
 
     }
 }

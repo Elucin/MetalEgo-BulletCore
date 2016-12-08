@@ -152,16 +152,32 @@ public class CharacterBase : MonoBehaviour {
 			Destruction ();
 		}
 	}
+
+
 	void KillPoints()
 	{
 		if (name.Contains ("Flying"))
 			PlayerControl.playerScore += Score.FLY;
-		else if (name.Contains ("Kami"))
+		else if (name.Contains ("Kamikaze"))
 			PlayerControl.playerScore += Score.KAM;
 		else if (name.Contains ("Tank"))
 			PlayerControl.playerScore += Score.TAN;
 		else if (name.Contains ("Mech"))
 			PlayerControl.playerScore += Score.MEC;
+	}
+
+	public int getScore()
+	{
+		if (name.Contains ("Flying"))
+			return (int)Score.FLY;
+		else if (name.Contains ("Kamikaze"))
+			return (int)Score.KAM;
+		else if (name.Contains ("Tank"))
+			return (int)Score.TAN;
+		else if (name.Contains ("Mech"))
+			return (int)Score.MEC;
+		else
+			return 0;
 	}
 
 }

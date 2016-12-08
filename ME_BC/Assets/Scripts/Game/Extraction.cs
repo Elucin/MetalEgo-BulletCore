@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Extraction : MonoBehaviour {
 
-    public GameObject[] landingZones;
+    public GameObject gameController;
     public LandingZone currentLandingZone;
 
     public float startTimer;
@@ -14,7 +14,7 @@ public class Extraction : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	    //Set a landing zone
+		
 	}
 	
 	// Update is called once per frame
@@ -32,7 +32,7 @@ public class Extraction : MonoBehaviour {
     public void NewZone()
     {
         extracting = false;
-        //Change current landing zone
+		gameController.GetComponent<GameController> ().ChangeActiveLandingZone();
     }
 
 }

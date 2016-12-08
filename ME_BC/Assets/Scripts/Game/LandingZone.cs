@@ -4,10 +4,11 @@ using System.Collections;
 public class LandingZone : MonoBehaviour {
 
     private Extraction extractionScript;
-    private Color ringColor;
+    public Color ringColor;
 
     private float maxThreat = 100.0f;
-    public float currentThreat;
+    public float currentThreat = 0;
+	public float threatBalance = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,8 @@ public class LandingZone : MonoBehaviour {
 	    if(extractionScript.extracted == false && extractionScript.extracting == true && currentThreat >= maxThreat){
             extractionScript.NewZone();
         }
+		if(currentThreat > 0)
+			Debug.Log (currentThreat);
 	}
 
     void OnTriggerEnter(Collider c)
@@ -26,9 +29,11 @@ public class LandingZone : MonoBehaviour {
         if(c.CompareTag("Player")){
             extractionScript.extracting = true;
             extractionScript.startTimer = Time.time;
+			Debug.Log ("Player in");
         }
         else if (c.CompareTag("Enemy")){
-            //Add Threat To Meter
+			
+			currentThreat = currentThreat + ((float)c.gameObject.GetComponent<CharacterBase> ().getScore()/threatBalance);
         }
 
     }
@@ -37,9 +42,10 @@ public class LandingZone : MonoBehaviour {
     {
         if(c.CompareTag("Player")){
             extractionScript.extracting = false;
+			Debug.Log ("Player out");
         }
         else if(c.CompareTag("Enemy")){
-            //Subtract Enemy Threat From Meter
+			currentThreat = currentThreat - ((float)c.gameObject.GetComponent<CharacterBase> ().getScore()/threatBalance);
         }
     }
 

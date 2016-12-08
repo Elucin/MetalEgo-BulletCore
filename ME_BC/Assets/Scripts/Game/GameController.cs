@@ -4,6 +4,7 @@ using System.Collections;
 public class GameController : MonoBehaviour {
 	public GameObject enemyManager;
 	public GameObject supplyDrops;
+	public GameObject[] landingZones;
 
 	//public Vector3 spawnValues;
 
@@ -20,6 +21,8 @@ public class GameController : MonoBehaviour {
 	public int supplyDropDelay = 60;
 	private float supplyInterval;
 
+
+	public bool toggleEnemyRemove = true;
 	public int enemyRemovalDelay = 2;
 	private float enemyInterval;
 
@@ -43,9 +46,9 @@ public class GameController : MonoBehaviour {
 			if((float)currentWaveSize/(float)waveSize <= wavePerecentageToRegenerate)
 			{
 				for (int i = 0; i < waveSize; i++) {
-					Debug.Log ("Spawn " + waveSize + " enemies");
+					//Debug.Log ("Spawn " + waveSize + " enemies");
 					enemyManager.GetComponent<EnemySpawning> ().Spawn ();
-					Debug.Log("About to Spawn another one");
+					//Debug.Log("About to Spawn another one");
 					yield return new WaitForSeconds (spawnWait);
 				}
 
@@ -66,16 +69,17 @@ public class GameController : MonoBehaviour {
 		currentWaveSize = GameObject.FindGameObjectsWithTag ("Enemy").Length;
 		if(supplyInterval - Time.time < 0)
 		{
-			Debug.Log ("Triggering supply drop");
+			//Debug.Log ("Triggering supply drop");
 			supplyDrops.GetComponent<AmmoDropSpawn> ().TriggerSpawn();
 			setUpSupplyDrop ();
 		}
-		//Debug.Log (currentWaveSize);
-		if(enemyInterval- Time.time < 0)
+		if(toggleEnemyRemove)
 		{
-			
-			ClearEnemies ();
-			enemyInterval = Time.time + enemyRemovalDelay;
+			if (enemyInterval - Time.time < 0) {
+				
+				ClearEnemies ();
+				enemyInterval = Time.time + enemyRemovalDelay;
+			}
 		}
 	}
 
@@ -86,5 +90,10 @@ public class GameController : MonoBehaviour {
 		for (int i = 0; i < enemies.Length; i++) {
 			Destroy (enemies[i]);
 		}
+	}
+
+	public void ChangeActiveLandingZone()
+	{
+		Debug.Log ("Active Landing Zone Changed");
 	}
 }
