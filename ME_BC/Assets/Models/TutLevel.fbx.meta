@@ -1,0 +1,125 @@
+fileFormatVersion: 2
+guid: 39643bd603d368c469d2dd1d97cd9fea
+timeCreated: 1481228312
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: ControlCenter
+    100002: ControlCenterHole
+    100004: group1
+    100006: mechPlatform
+    100008: mechSize
+    100010: mechSize1
+    100012: mechSize2
+    100014: mechSize3
+    100016: mechSize4
+    100018: pCube1
+    100020: Room
+    100022: //RootNode
+    400000: ControlCenter
+    400002: ControlCenterHole
+    400004: group1
+    400006: mechPlatform
+    400008: mechSize
+    400010: mechSize1
+    400012: mechSize2
+    400014: mechSize3
+    400016: mechSize4
+    400018: pCube1
+    400020: Room
+    400022: //RootNode
+    2300000: ControlCenter
+    2300002: ControlCenterHole
+    2300004: mechPlatform
+    2300006: mechSize
+    2300008: mechSize1
+    2300010: mechSize2
+    2300012: mechSize3
+    2300014: mechSize4
+    2300016: pCube1
+    2300018: Room
+    3300000: ControlCenter
+    3300002: ControlCenterHole
+    3300004: mechPlatform
+    3300006: mechSize
+    3300008: mechSize1
+    3300010: mechSize2
+    3300012: mechSize3
+    3300014: mechSize4
+    3300016: pCube1
+    3300018: Room
+    4300000: Room
+    4300002: ControlCenter
+    4300004: mechPlatform
+    4300006: mechSize
+    4300008: mechSize1
+    4300010: mechSize2
+    4300012: mechSize3
+    4300014: mechSize4
+    4300016: ControlCenterHole
+    4300018: pCube1
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

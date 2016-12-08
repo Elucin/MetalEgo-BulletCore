@@ -10,7 +10,7 @@ public class ProjectileEmit : MonoBehaviour {
 	{
 		GameObject[] enemies = GameObject.FindGameObjectsWithTag ("Enemy");
 		foreach (GameObject o in enemies) {
-			if (PlayerControl.missileAmmo <= 0)
+			if (PlayerControl.missileAmmo <= 0 || o.GetComponent<MissileLockTest>() == null)
 				return;
 			if (side == "left") {
 				if (o.GetComponent<MissileLockTest> ().leftMissileLock >= 0.9f) {

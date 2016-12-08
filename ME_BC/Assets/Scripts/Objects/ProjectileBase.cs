@@ -43,8 +43,6 @@ public class ProjectileBase : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision c){
-
-		Debug.Log ("Collided " + c.transform.name);
 		if (emitter != null) {
 			if (emitter.transform.root == c.transform)
 				return;

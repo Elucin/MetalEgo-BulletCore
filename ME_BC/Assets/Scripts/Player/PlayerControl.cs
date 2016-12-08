@@ -240,13 +240,16 @@ public class PlayerControl : MonoBehaviour {
 	{
 		int targetsLocked = 0;
 		GameObject[] allEnemies = GameObject.FindGameObjectsWithTag ("Enemy");
-			foreach (GameObject o in allEnemies) {
-			if (Vector3.Distance (transform.position, o.transform.position) < 1000f) {
-				if (Vector3.Angle (ret.position - camPosition.position, o.transform.position - camPosition.position) < 5.5f  && targetsLocked < 7) {
+
+		foreach (GameObject o in allEnemies) {
+			if (o.GetComponent<MissileLockTest> () != null) {
+				if (Vector3.Distance (transform.position, o.transform.position) < 100000f) {
+					//Debug.Log (Vector3.Angle (ret.position - camPosition.position, o.transform.position - camPosition.position) + ": " + o.name);
+					if (Vector3.Angle (ret.position - camPosition.position, o.transform.position - camPosition.position) < 5.5f && targetsLocked < 7) {
 						targetsLocked++;
 						if (ret.name.Contains ("Left"))
 							o.GetComponent<MissileLockTest> ().leftMissileLock += Time.deltaTime;
-						else
+						else if (o.GetComponent<MissileLockTest> () != null)
 							o.GetComponent<MissileLockTest> ().rightMissileLock += Time.deltaTime;
 					} else {
 						if (ret.name.Contains ("Left"))
@@ -256,6 +259,7 @@ public class PlayerControl : MonoBehaviour {
 					}
 				} 
 			}
+		}
 	}
 
 	RaycastHit MortarTarget(Transform ret)
@@ -283,7 +287,7 @@ public class PlayerControl : MonoBehaviour {
 	bool IsGrounded()
 	{
 		RaycastHit hit;
-		bool ray = Physics.Raycast (transform.position, -Vector3.up, out hit, 1.075f);
+		bool ray = Physics.Raycast (transform.position, -Vector3.up, out hit, 1.075f * 3);
 		//bool ray =  Physics.SphereCast(transform.position, 0.5f, -transform.up, out hit , 0.07f);
 		return ray;
 	}
