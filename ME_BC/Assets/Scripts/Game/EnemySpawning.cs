@@ -43,7 +43,7 @@ public class EnemySpawning : MonoBehaviour {
 		if (RandomPoint(player.transform.position, 50, out point)) {
 
 			int spawnEnemyIndex = Random.Range (0, enemy.Length-1);
-			Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+			//Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
 			/*GameObject ammo = (GameObject)*/
 			Instantiate (
 				enemy[spawnEnemyIndex],
