@@ -7,20 +7,20 @@ public class EnemySpawning : MonoBehaviour {
 	public GameObject[] enemy;
 	public float spawnTime = 3f;
 	//public Transform[] spawnPoints;
-	private bool triggerSpawn = true;
+	//private bool triggerSpawn = true;
 
 
 	// Use this for initialization
-	void Start () {
-		InvokeRepeating ("Spawn", spawnTime, spawnTime);
-	}
+	//void Start () {
+	//	InvokeRepeating ("Spawn", spawnTime, spawnTime);
+	//}
 	
 
 
 	bool RandomPoint(Vector3 center, float range, out Vector3 result) 
 	{
 		for (int i = 0; i < 30; i++) {
-			Vector3 randomPoint = center + Random.insideUnitSphere * range;
+			Vector3 randomPoint = center + Random.onUnitSphere * range;
 			NavMeshHit hit;
 			if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) {
 				result = hit.position;
@@ -31,26 +31,27 @@ public class EnemySpawning : MonoBehaviour {
 		return false;
 	}
 
-	void Update() 
+	/*void Update() 
 	{
 		if (triggerSpawn)
 			Spawn ();
-	}
+	}*/
 
-	private void Spawn()
+	public void Spawn()
 	{
-		Vector3 point;
-		if (RandomPoint(transform.position, 50, out point)) {
+		Vector3 point = new Vector3(0,0,0);
+		if (RandomPoint(player.transform.position, 50, out point)) {
 
-			int spawnEnemyIndex = Random.Range (0, enemy.Length);
+			int spawnEnemyIndex = Random.Range (0, enemy.Length-1);
 			//Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
-			GameObject ammo = (GameObject)Instantiate (
+			/*GameObject ammo = (GameObject)*/
+			Instantiate (
 				enemy[spawnEnemyIndex],
 				point,
 				Quaternion.identity
 
 			);
 		}
-		triggerSpawn = false;
+		//triggerSpawn = false;
 	}
 }

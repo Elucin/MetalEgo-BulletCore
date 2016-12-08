@@ -7,7 +7,7 @@ public class AmmoDropSpawn : MonoBehaviour {
 	public int points = 50;
 	public int dropHeight = 50;
 	private GameObject ammoPrefab;
-	private bool spawnAmmo = true;
+	private bool spawnAmmo = false;
 	void Start()
 	{
 		ammoPrefab = (GameObject) Resources.Load("AmmoCrate", typeof(GameObject));
@@ -39,14 +39,29 @@ public class AmmoDropSpawn : MonoBehaviour {
 		if (RandomPoint(transform.position, range, out point)) {
 
 			point.y = point.y + dropHeight;
-			Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f);
+			Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f); // use to debug points on map
 			GameObject ammo = (GameObject)Instantiate (
 				ammoPrefab,
 				point,
 				Quaternion.identity
 
 			);
+			ammo.tag = "SupplyDrop";
 		}
 		spawnAmmo = false;
 	}
+
+	public void TriggerSpawn()
+	{
+		spawnAmmo = true;
+	}
+
+	public void ClearDrops()
+	{
+		GameObject[] drops = GameObject.FindGameObjectsWithTag ("SupplyDrop");
+		for (int i = 0; i < drops.Length-1; i++) {
+			Destroy (drops[i]);
+		}
+	}
+
 }

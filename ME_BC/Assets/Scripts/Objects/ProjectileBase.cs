@@ -45,11 +45,16 @@ public class ProjectileBase : MonoBehaviour {
     void OnCollisionEnter(Collision c){
 
 		Debug.Log ("Collided " + c.transform.name);
-		if (c.transform.tag == "Projectile" || emitter.transform.root == c.transform)
+		if (emitter != null) {
+			if (emitter.transform.root == c.transform)
+				return;
+		}
+		if (c.transform.tag == "Projectile")
 			return;
 		if (c.transform.tag == "Enemy")
 			c.transform.GetComponent<CharacterBase> ().DamageReceived (damage, type);
 		DestroyBullet();
+
 
     }
 }
