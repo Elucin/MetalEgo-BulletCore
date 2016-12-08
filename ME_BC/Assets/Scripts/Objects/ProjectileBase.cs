@@ -3,45 +3,46 @@ using System.Collections;
 
 public class ProjectileBase : MonoBehaviour {
 
-    public GameObject impactParticles;
+	public GameObject impactParticles;
 	public float speed;
 	public float damage;
 
-    public Transform emitter;
+	public Transform emitter;
 	public Rigidbody rigidBody;
 
-    private float startTimer;
-    public float lifetime;
+	protected float startTimer;
+	public float lifetime;
 	protected ParticleSystem particleSys;
+	protected string type;
 
 
 	// Use this for initialization
 	protected virtual void Start () {
 		rigidBody = GetComponent<Rigidbody> ();
-        startTimer = Time.time;
+		startTimer = Time.time;
 		//lifetime = GetComponent<ParticleSystem>().startLifetime;
 		particleSys = GetComponent<ParticleSystem> ();
 	}
-	
+
 	// Update is called once per frame
 	protected virtual void Update () {
-        Expire();   
+		Expire();   
 	}
 
-    void Expire(){
-        if(Time.time - startTimer >= lifetime)
-        {
-            DestroyBullet();
-        }
-    }
+	void Expire(){
+		if(Time.time - startTimer >= lifetime)
+		{
+			DestroyBullet();
+		}
+	}
 
-    void DestroyBullet(){
+	void DestroyBullet(){
 		if(impactParticles != null)
 			Instantiate (impactParticles, transform.position, Quaternion.identity);
-        Destroy(gameObject);
-    }
+		Destroy(gameObject);
+	}
 
-    void OnCollisionEnter(Collision c){
+	void OnCollisionEnter(Collision c){
 
 		//Debug.Log ("Collided " + c.transform.name);
 		if (emitter != null) {
@@ -50,9 +51,10 @@ public class ProjectileBase : MonoBehaviour {
 		}
 		if (c.transform.tag == "Projectile")
 			return;
-		if (c.transform.tag == "Enemy" && emitter.transform.root.transform.tag != "Enemy")
-			c.transform.GetComponent<CharacterBase> ().DamageReceived (damage);
-		DestroyBullet ();
+		if (c.transform.tag == "Enemy")
+			c.transform.GetComponent<CharacterBase> ().DamageReceived (damage, type);
+		DestroyBullet();
 
-    }
+
+	}
 }

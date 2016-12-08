@@ -33,8 +33,8 @@ public class GameController : MonoBehaviour {
 		enemyInterval = Time.time + enemyRemovalDelay;
 		setUpSupplyDrop ();
 		startTimer = Time.time;
+		setLandingZone ();
 		StartCoroutine (SpawnWaves ());
-
 
 	}
 	
@@ -92,8 +92,27 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	private void setLandingZone()
+	{
+		int indexLZ = Random.Range (0, landingZones.Length);
+		for (int i = 0; i < landingZones.Length; i++) {
+			if (landingZones [i].GetComponent<LandingZone> ().active = true) {
+				indexLZ = i + 3 + Random.Range (0, 2);
+				if (indexLZ > 7)
+					indexLZ = indexLZ - 8;
+				
+				landingZones [i].GetComponent<LandingZone> ().active = false;
+			}
+
+
+		}
+
+		landingZones[indexLZ].GetComponent<LandingZone>().active = true;
+	}
+
 	public void ChangeActiveLandingZone()
 	{
 		Debug.Log ("Active Landing Zone Changed");
+		setLandingZone ();
 	}
 }

@@ -25,8 +25,10 @@ public class Extraction : MonoBehaviour {
 
     void Countdown()
     {
-        if (Time.time - startTimer >= extractTime)
-            extracted = true;
+		if (Time.time - startTimer >= extractTime) {
+			extracted = true;
+			Debug.Log ("Extracted");
+		}
     }
 
     public void NewZone()

@@ -10,6 +10,8 @@ public class LandingZone : MonoBehaviour {
     public float currentThreat = 0;
 	public float threatBalance = 10f;
 
+	public bool active = true;
+
 	// Use this for initialization
 	void Start () {
         extractionScript = Camera.main.GetComponent<Extraction>();
@@ -17,11 +19,15 @@ public class LandingZone : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(extractionScript.extracted == false && extractionScript.extracting == true && currentThreat >= maxThreat){
+		if (active) {
+			this.GetComponent<ParticleSystem> ().Play();
+		} else {
+			this.GetComponent<ParticleSystem> ().Stop();
+		}
+		if(extractionScript.extracted == false && extractionScript.extracting == true && currentThreat >= maxThreat && active == true){
             extractionScript.NewZone();
         }
-		if(currentThreat > 0)
-			Debug.Log (currentThreat);
+
 	}
 
     void OnTriggerEnter(Collider c)
@@ -32,7 +38,7 @@ public class LandingZone : MonoBehaviour {
 			Debug.Log ("Player in");
         }
         else if (c.CompareTag("Enemy")){
-			
+			Debug.Log (c.gameObject.name+" in");
 			currentThreat = currentThreat + ((float)c.gameObject.GetComponent<CharacterBase> ().getScore()/threatBalance);
         }
 
@@ -45,6 +51,7 @@ public class LandingZone : MonoBehaviour {
 			Debug.Log ("Player out");
         }
         else if(c.CompareTag("Enemy")){
+			Debug.Log (c.gameObject.name+" out");
 			currentThreat = currentThreat - ((float)c.gameObject.GetComponent<CharacterBase> ().getScore()/threatBalance);
         }
     }
