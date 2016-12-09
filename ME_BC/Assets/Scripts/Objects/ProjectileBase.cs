@@ -42,9 +42,11 @@ public class ProjectileBase : MonoBehaviour {
 		Destroy(gameObject);
 	}
 
+
 	void OnCollisionEnter(Collision c){
 
 		//Debug.Log ("Collided " + c.transform.name);
+
 		if (emitter != null) {
 			if (emitter.transform.root == c.transform)
 				return;

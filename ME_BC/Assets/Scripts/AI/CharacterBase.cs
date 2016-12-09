@@ -43,9 +43,11 @@ public class CharacterBase : MonoBehaviour {
 		//body = GetComponent<Rigidbody>();
 
 
-		agent = GetComponent<NavMeshAgent>();
-		agent.stoppingDistance = attackDistance;
-		agent.SetDestination (player.transform.position);
+			agent = GetComponent<NavMeshAgent> ();
+		if (agent != null) {
+			agent.stoppingDistance = attackDistance;
+			agent.SetDestination (player.transform.position);
+		}
 
 	}
 	
@@ -53,7 +55,8 @@ public class CharacterBase : MonoBehaviour {
 	public virtual void Update () {
 		//agent.destination = player.transform.position; 
 		//dest = agent.destination;
-		Move ();
+		if(agent != null)
+			Move ();
 		//agent.Move (GetVelocity);
 		Attack ();
 	}
@@ -137,14 +140,15 @@ public class CharacterBase : MonoBehaviour {
 
 	public void DamageReceived(float damage, string type)
 	{
-		health = health - (damage / defensePower);
-		if (type == "Gatling")
+		float totalDamage = Mathf.Clamp (damage - defensePower, 0, 9999);
+		health = health - totalDamage;
+		if (type == "Gatling" && totalDamage > 0)
 			PlayerControl.playerScore += Score.GAT;
-		else if (type == "Missile")
+		else if (type == "Missile" && totalDamage > 0)
 			PlayerControl.playerScore += Score.MIS;
-		else if (type == "Mortar")
+		else if (type == "Mortar" && totalDamage > 0)
 			PlayerControl.playerScore += Score.MOR;
-		else if (type == "Flak")
+		else if (type == "Flak" && totalDamage > 0)
 			PlayerControl.playerScore += Score.FLA;
 		
 		if (health <= 0) {
