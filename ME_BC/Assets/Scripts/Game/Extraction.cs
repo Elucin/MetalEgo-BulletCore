@@ -6,11 +6,11 @@ public class Extraction : MonoBehaviour {
     public GameObject gameController;
     public LandingZone currentLandingZone;
 
-    public float startTimer;
-    public float extractTime = 60.0f;
+    public float startTimer = 0f;
+    public float extractTime = 30.0f;
 
-    public bool extracting;
-    public bool extracted;
+    public bool extracting = false;
+    public bool extracted = false;
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +25,9 @@ public class Extraction : MonoBehaviour {
 
     void Countdown()
     {
+
+
+		Debug.Log(Time.time - startTimer + " til: " + extractTime);
 		if (Time.time - startTimer >= extractTime) {
 			extracted = true;
 			Debug.Log ("Extracted");

@@ -14,7 +14,10 @@ public class LandingZone : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		
         extractionScript = Camera.main.GetComponent<Extraction>();
+		Debug.Log ( Camera.main);
+		Debug.Log ( extractionScript.extractTime);
 	}
 	
 	// Update is called once per frame
@@ -32,28 +35,30 @@ public class LandingZone : MonoBehaviour {
 
     void OnTriggerEnter(Collider c)
     {
-        if(c.CompareTag("Player")){
-            extractionScript.extracting = true;
-            extractionScript.startTimer = Time.time;
-			Debug.Log ("Player in");
-        }
-        else if (c.CompareTag("Enemy")){
-			Debug.Log (c.gameObject.name+" in");
-			currentThreat = currentThreat + ((float)c.gameObject.GetComponent<CharacterBase> ().getScore()/threatBalance);
-        }
+		if (active) {
+			if (c.CompareTag ("Player")) {
+				extractionScript.extracting = true;
+				extractionScript.startTimer = Time.time;
+				Debug.Log ("Player in");
+			} else if (c.CompareTag ("Enemy")) {
+				Debug.Log (c.gameObject.name + " in");
+				currentThreat = currentThreat + ((float)c.gameObject.GetComponent<CharacterBase> ().getScore () / threatBalance);
+			}
+		}
 
     }
 
     void OnTriggerExit(Collider c)
     {
-        if(c.CompareTag("Player")){
-            extractionScript.extracting = false;
-			Debug.Log ("Player out");
-        }
-        else if(c.CompareTag("Enemy")){
-			Debug.Log (c.gameObject.name+" out");
-			currentThreat = currentThreat - ((float)c.gameObject.GetComponent<CharacterBase> ().getScore()/threatBalance);
-        }
+		if (active) {
+			if (c.CompareTag ("Player")) {
+				extractionScript.extracting = false;
+				Debug.Log ("Player out");
+			} else if (c.CompareTag ("Enemy")) {
+				Debug.Log (c.gameObject.name + " out");
+				currentThreat = currentThreat - ((float)c.gameObject.GetComponent<CharacterBase> ().getScore () / threatBalance);
+			}
+		}
     }
 
 }
