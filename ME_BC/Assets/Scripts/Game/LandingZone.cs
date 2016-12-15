@@ -16,8 +16,8 @@ public class LandingZone : MonoBehaviour {
 	void Start () {
 		
         extractionScript = Camera.main.GetComponent<Extraction>();
-		Debug.Log ( Camera.main);
-		Debug.Log ( extractionScript.extractTime);
+		//Debug.Log ( Camera.main);
+		//Debug.Log ( extractionScript.extractTime);
 	}
 	
 	// Update is called once per frame
