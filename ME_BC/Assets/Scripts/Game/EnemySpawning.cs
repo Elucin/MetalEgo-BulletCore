@@ -21,8 +21,8 @@ public class EnemySpawning : MonoBehaviour {
 	{
 		for (int i = 0; i < 30; i++) {
 			Vector3 randomPoint = center + Random.onUnitSphere * range;
-			NavMeshHit hit;
-			if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas)) {
+			UnityEngine.AI.NavMeshHit hit;
+			if (UnityEngine.AI.NavMesh.SamplePosition(randomPoint, out hit, 1.0f, UnityEngine.AI.NavMesh.AllAreas)) {
 				result = hit.position;
 				return true;
 			}

@@ -22,7 +22,7 @@ public class FlyingKamikaze : CharacterBase {
 	{
 		base.Move ();
 		tempPostion = transform.position;
-		tempPostion.y = yOffset * (agent.remainingDistance/20f);
+		tempPostion.y = yOffset * (agent.remainingDistance/20f)+ tempPostion.y;
 		transform.position = tempPostion;
 
 	}

@@ -3,24 +3,26 @@ using System.Collections;
 
 public class StoryManager : MonoBehaviour{
 
-	public static bool isAwake = false; //When true, activate spotlights, enable Gatling Guns
-	public static bool ccIsDestroyed = false; //Elevator Up
-	public static bool elevUp = false; //Enable Walking, Alternate Weapons
-	public static bool ceilingBroke = false; //Enable Jumping
+	public static bool isAwake = false; //When true, activate spotlights, enable Gatling Guns X
+	public static bool ccIsDestroyed = false; //Elevator Up 
+	public static bool elevUp = false; //Enable Walking, Alternate Weapons X
+	public static bool ceilingBroke = false; //Enable Jumping 
 	public static bool isOutside = false; //Start wave spawning logic
 	public static bool isExtracted = false; //Start exit sequence
+
+
 
 	public Animator tutAnim;
 	public GameObject platform;
 	private int currentBaseState;
 
 	private int elevDoneState;
-
+	public GameObject ceilingPiece;
 	public GameObject commandCenter;
 
 	void Start()
 	{
-		elevDoneState = Animator.StringToHash ("ElevatorStayUp");
+		elevDoneState = Animator.StringToHash ("Base.ElevatorStayUp");
 	}
 
 	void Update()
@@ -38,16 +40,39 @@ public class StoryManager : MonoBehaviour{
 		if (commandCenter == null && !ccIsDestroyed) {
 			ccIsDestroyed = true;
 			tutAnim.enabled = true;
-			Debug.Log ("CC Destroyed");
 		}
 
 		if (!elevUp && currentBaseState == elevDoneState) {
-			Debug.Log ("Elevator Up!");
+			
 			elevUp = true;
 			//platform.GetComponent<Rigidbody> ().isKinematic = true;
 		}
 
+		if (ceilingPiece == null && !ceilingBroke) {
+			ceilingBroke = true;
+			Debug.Log (ceilingBroke);
+		}
 
+
+		if (isOutside) {
+			//Debug.Log ("Volume Triggered");
+			GameObject.FindWithTag ("GameController").GetComponent<GameController> ().StartWaves ();
+			//Start Waves
+		}
+
+		if (isExtracted) {
+			
+			//GameOver
+		}
 
 	}
+
+	public void ExtractionTriggered(){
+		isExtracted = true;
+	}
+
+	public void EscapeRoomVolumeTrigger(){
+		isOutside = true;
+	}
+
 }

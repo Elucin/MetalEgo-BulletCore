@@ -18,7 +18,7 @@ public class Flying : CharacterBase {
 
 	protected override void Move()
 	{
-		if(agent.pathStatus == NavMeshPathStatus.PathComplete)
+		if(agent.pathStatus == UnityEngine.AI.NavMeshPathStatus.PathComplete)
 		{
 			Vector3 tempPos = player.transform.position;
 			float xoffset = Random.Range (-30, 30);
@@ -31,7 +31,7 @@ public class Flying : CharacterBase {
 
 		base.Move ();
 		tempPostion = transform.position;
-		tempPostion.y = Mathf.Sin(Time.realtimeSinceStartup * verticalSpeed)*amplitude + yOffset;
+		tempPostion.y = Mathf.Sin(Time.realtimeSinceStartup * verticalSpeed)*amplitude + yOffset + tempPostion.y;
 		transform.position = tempPostion;
 
 	}

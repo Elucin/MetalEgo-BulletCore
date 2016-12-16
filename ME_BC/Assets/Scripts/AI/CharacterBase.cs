@@ -34,7 +34,7 @@ public class CharacterBase : MonoBehaviour {
 
 	//public Animator animator;
 	//public Rigidbody body;
-	protected NavMeshAgent agent;
+	protected UnityEngine.AI.NavMeshAgent agent;
 	// Use this for initialization
 	public virtual void Start () {
 		player = GameObject.FindWithTag ("Player");
@@ -43,7 +43,7 @@ public class CharacterBase : MonoBehaviour {
 		//body = GetComponent<Rigidbody>();
 
 
-			agent = GetComponent<NavMeshAgent> ();
+			agent = GetComponent<UnityEngine.AI.NavMeshAgent> ();
 		if (agent != null) {
 			agent.stoppingDistance = attackDistance;
 			agent.SetDestination (player.transform.position);

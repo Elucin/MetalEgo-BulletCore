@@ -32,6 +32,7 @@ public class Extraction : MonoBehaviour {
 		if (Time.time - startTimer >= extractTime) {
 			extracted = true;
 			Debug.Log ("Extracted");
+			Camera.main.GetComponent<StoryManager> ().ExtractionTriggered ();
 		}
     }
 

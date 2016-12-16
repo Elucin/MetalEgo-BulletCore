@@ -29,13 +29,13 @@ public class GameController : MonoBehaviour {
 
 	private float startTimer;
 
+	private bool startWaves = false;
+	private bool firstWave = true;
+
 	// Use this for initialization
 	public void Start () {
-		enemyInterval = Time.time + enemyRemovalDelay;
-		setUpSupplyDrop ();
-		startTimer = Time.time;
-		setLandingZone ();
-		StartCoroutine (SpawnWaves ());
+		
+		//StartCoroutine (SpawnWaves ());
 
 	}
 	
@@ -43,7 +43,7 @@ public class GameController : MonoBehaviour {
 	IEnumerator SpawnWaves(){
 		
 		//yield return new WaitForSeconds (intialWaveDelay);
-	
+		Debug.Log("In cooureadnt");
 			if((float)currentWaveSize/(float)waveSize <= wavePerecentageToRegenerate)
 			{
 				for (int i = 0; i < waveSize; i++) {
@@ -66,21 +66,35 @@ public class GameController : MonoBehaviour {
 
 	// Update is called once per frame
 	public void Update () {
-		if(Time.time - startTimer > intialWaveDelay)
-			StartCoroutine( SpawnWaves ());
-		currentWaveSize = GameObject.FindGameObjectsWithTag ("Enemy").Length;
-		if(supplyInterval - Time.time < 0  && spawnAllowed)
-		{
-			//Debug.Log ("Triggering supply drop");
-			supplyDrops.GetComponent<AmmoDropSpawn> ().TriggerSpawn();
-			setUpSupplyDrop ();
-		}
-		if(toggleEnemyRemove)
-		{
-			if (enemyInterval - Time.time < 0) {
-				
-				ClearEnemies ();
+		if(startWaves){
+			Debug.Log ("Wave Started");
+			if (firstWave) {
 				enemyInterval = Time.time + enemyRemovalDelay;
+				setUpSupplyDrop ();
+				startTimer = Time.time;
+				setLandingZone ();
+				firstWave = false;
+			}
+		
+
+			if(Time.time - startTimer > intialWaveDelay)
+				StartCoroutine( SpawnWaves ());
+
+			Debug.Log("In cooureadnt");
+			currentWaveSize = GameObject.FindGameObjectsWithTag ("Enemy").Length;
+			if(supplyInterval - Time.time < 0  && spawnAllowed)
+			{
+				Debug.Log ("Triggering supply drop");
+				supplyDrops.GetComponent<AmmoDropSpawn> ().TriggerSpawn();
+				setUpSupplyDrop ();
+			}
+			if(toggleEnemyRemove)
+			{
+				if (enemyInterval - Time.time < 0) {
+					
+					ClearEnemies ();
+					enemyInterval = Time.time + enemyRemovalDelay;
+				}
 			}
 		}
 	}
@@ -122,4 +136,10 @@ public class GameController : MonoBehaviour {
 	{
 		spawnAllowed = true;
 	}
+
+	public void StartWaves ()
+	{
+		startWaves = true;
+	}
+
 }
