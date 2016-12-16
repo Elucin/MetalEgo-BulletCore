@@ -69,6 +69,8 @@ public class StoryManager : MonoBehaviour{
 
 	public void ExtractionTriggered(){
 		isExtracted = true;
+		UnityEngine.SceneManagement.SceneManager.LoadScene ("ScoreScreen");
+
 	}
 
 	public void EscapeRoomVolumeTrigger(){

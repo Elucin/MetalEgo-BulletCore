@@ -13,8 +13,8 @@ public class ControlDebug : MonoBehaviour {
 	
 	// Update is called once per frame
 	void LateUpdate () {
-		DebugJoy1 ();
-		DebugJoy2 ();
+		//DebugJoy1 ();
+		//DebugJoy2 ();
 		DebugJoy3 ();	
 	}
 

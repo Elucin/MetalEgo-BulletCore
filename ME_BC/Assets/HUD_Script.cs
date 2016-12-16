@@ -18,7 +18,9 @@ public class HUD_Script : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (ex.extracting)
-			Timer.text = (30 - ex.extractTime);
+			Timer.text = string.Format ("{02:N}", ex.extractTime - (Time.time - ex.startTimer));
+		else
+			Timer.text = "0000:0000";
 		missileAmmo.text = "Missile Ammo: " + PlayerControl.missileAmmo.ToString ();
 		mortarAmmo.text = "Mortar Ammo: " + PlayerControl.mortarAmmo.ToString ();
 		flakAmmo.text = "Flak Ammo: " + PlayerControl.flakAmmo.ToString ();

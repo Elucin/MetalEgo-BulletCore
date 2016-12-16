@@ -37,7 +37,7 @@ public class AmmoDropSpawn : MonoBehaviour {
 	{
 		Vector3 point;
 		if (RandomPoint(transform.position, range, out point)) {
-
+			Debug.Log ("Spawned ammo");
 			point.y = point.y + dropHeight;
 			//Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f); // use to debug points on map
 			GameObject ammo = (GameObject)Instantiate (

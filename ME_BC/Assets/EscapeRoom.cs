@@ -7,7 +7,7 @@ public class EscapeRoom : MonoBehaviour {
 
 	// Use this for initialization
 	void OnTriggerExit(Collider c){
-
-		Camera.main.GetComponent<StoryManager>().EscapeRoomVolumeTrigger();
+		if(c.CompareTag("Player"))
+			Camera.main.GetComponent<StoryManager>().EscapeRoomVolumeTrigger();
 	}
 }

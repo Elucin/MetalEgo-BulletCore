@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour {
 
 			Debug.Log("In cooureadnt");
 			currentWaveSize = GameObject.FindGameObjectsWithTag ("Enemy").Length;
-			if(supplyInterval - Time.time < 0  && spawnAllowed)
+			if(supplyInterval - Time.time < 0)
 			{
 				Debug.Log ("Triggering supply drop");
 				supplyDrops.GetComponent<AmmoDropSpawn> ().TriggerSpawn();

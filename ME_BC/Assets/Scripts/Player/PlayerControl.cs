@@ -5,7 +5,7 @@ public class PlayerControl : MonoBehaviour {
 
 	const int AXIS_GRAVITY = 30;
 	const float SPEED_DENOM = 0.075f;
-	const float MAX_SPEED = 10f;
+	const float MAX_SPEED = 40f;
 	const float MAX_TURN_SPEED = 1f;
 	const int TARGET_SMOOTHING = 10;
 	const float MORTAR_Y_OFFSET = -0.06f;
@@ -175,15 +175,16 @@ public class PlayerControl : MonoBehaviour {
 		if(isGrounded)
 			GetComponent<Rigidbody>().velocity = transform.TransformDirection(new Vector3 (0, 0, MAX_SPEED) * GetSpeedCoefficient ());
 		//GetComponent<Rigidbody> ().velocity = new Vector3 (rigidBody.velocity.x, yVel, rigidBody.velocity.z);
-		if (Input.GetAxis ("j3_X") > -0.5f && Input.GetAxis ("j3_Y") > -0.5f && Mathf.Abs (GetTurnCoefficient ()) < 0.6f) {
-			//Camera.main.transform.parent.localPosition = Vector3.Lerp (Camera.main.transform.parent.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.parent.localPosition.z), Time.time / 100f); 
+		/*if (Input.GetAxis ("j3_X") > -0.5f && Input.GetAxis ("j3_Y") > -0.5f && Mathf.Abs (GetTurnCoefficient ()) < 0.6f) {
+			//transform.parent.localPosition = Vector3.Lerp (Camera.main.transform.parent.localPosition, new Vector3 (0, -0.2f * (Input.GetAxis ("j3_X") + Input.GetAxis ("j3_Y") / 2f), Camera.main.transform.parent.localPosition.z), Time.time / 100f); 
 			crouching = true;
 			rigidBody.angularVelocity = Vector3.zero;
-		} else {
-			//Camera.main.transform.parent.localPosition = Vector3.Lerp (Camera.main.transform.parent.localPosition, new Vector3 (0, (1 - Mathf.Abs (Input.GetAxis ("j3_Z")) * 0.2f), Camera.main.transform.parent.localPosition.z), Time.time / 50f); //Head Bob
-			rigidBody.angularVelocity = new Vector3 (0, -GetTurnCoefficient () / 2, 0);
-			crouching = false;
-		}
+		} else { */
+			//transform.parent.localPosition = Vector3.Lerp (transform.parent.localPosition, new Vector3 (0, (1 - Mathf.Abs (Input.GetAxis ("j3_Z")) * 0.2f), Camera.main.transform.parent.localPosition.z), Time.time / 50f); //Head Bob
+			rigidBody.angularVelocity = new Vector3(0, Input.GetAxis("j1_Z") * 1.2f, 0);
+			//rigidBody.angularVelocity = new Vector3 (0, -GetTurnCoefficient () / 2, 0);
+			//crouching = false;
+		//}
 		transform.localEulerAngles = new Vector3 (0, transform.localEulerAngles.y, 0);
 
 	}
@@ -221,19 +222,33 @@ public class PlayerControl : MonoBehaviour {
 
 	void CrouchAndJump()
 	{
-		
+		if (Input.GetButton ("j1_b5") && jumpPower < 100.0f && canJump && isGrounded) {
+			jumpPower += 75f * Time.deltaTime;
+			jumpPower = Mathf.Clamp (jumpPower, 0, 100f);
+		} 
+		else if (!Input.GetButton ("j1_b5") && jumpPower > 0) {
+			GetComponent<Rigidbody> ().AddForce (transform.TransformDirection(new Vector3 (0, 200f, 75f) * jumpPower), ForceMode.Impulse);
+		jumpPower = 0f;
+		} else if (Input.GetButton ("j1_b5") && jumpPower >= 100.0f) {
+			jumpPower = 0f;
+			canJump = false;
+		} else if (!Input.GetButton ("j1_b5") && jumpPower == 0f) {
+			canJump = true;
+		}
+
+		/*
 		if (crouching && jumpPower < 100.0f && canJump && isGrounded) {
 			jumpPower += 75f * Time.deltaTime;
 			jumpPower = Mathf.Clamp (jumpPower, 0, 100f);
 		} else if (!crouching && jumpPower > 0) {
-			GetComponent<Rigidbody> ().AddForce (transform.TransformDirection(new Vector3 (0, 150f, 75f) * jumpPower), ForceMode.Impulse);
+			GetComponent<Rigidbody> ().AddForce (transform.TransformDirection(new Vector3 (0, 200f, 75f) * jumpPower), ForceMode.Impulse);
 			jumpPower = 0f;
 		} else if (crouching && jumpPower >= 100.0f) {
 			jumpPower = 0f;
 			canJump = false;
 		} else if (!crouching && jumpPower == 0f) {
 			canJump = true;
-		}
+		}*/
 	}
 
 	void MissileLock(Transform ret)
