@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour {
 
 	public int supplyDropDelay = 60;
 	private float supplyInterval;
+	private bool spawnAllowed = true;
 
 
 	public bool toggleEnemyRemove = true;
@@ -60,6 +61,7 @@ public class GameController : MonoBehaviour {
 	private void setUpSupplyDrop()
 	{
 		supplyInterval = Time.time + supplyDropDelay;
+		spawnAllowed = false;
 	}
 
 	// Update is called once per frame
@@ -67,7 +69,7 @@ public class GameController : MonoBehaviour {
 		if(Time.time - startTimer > intialWaveDelay)
 			StartCoroutine( SpawnWaves ());
 		currentWaveSize = GameObject.FindGameObjectsWithTag ("Enemy").Length;
-		if(supplyInterval - Time.time < 0)
+		if(supplyInterval - Time.time < 0  && spawnAllowed)
 		{
 			//Debug.Log ("Triggering supply drop");
 			supplyDrops.GetComponent<AmmoDropSpawn> ().TriggerSpawn();
@@ -114,5 +116,10 @@ public class GameController : MonoBehaviour {
 	{
 		Debug.Log ("Active Landing Zone Changed");
 		setLandingZone ();
+	}
+
+	public void SupplyDropPicked()
+	{
+		spawnAllowed = true;
 	}
 }

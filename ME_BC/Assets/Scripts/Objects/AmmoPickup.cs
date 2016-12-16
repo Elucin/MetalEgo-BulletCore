@@ -2,12 +2,14 @@
 using System.Collections;
 
 public class AmmoPickup : MonoBehaviour {
+	private GameObject gameController;
 	int missileAmmo;
 	int flakAmmo;
 	int mortarAmmo;
 
 	// Use this for initialization
 	void Start () {
+		gameController = GameObject.FindWithTag ("GameController");
 		missileAmmo = Random.Range ((int)(PlayerControl.MAX_MISSILE_AMMO / 5), (int)(PlayerControl.MAX_MISSILE_AMMO / 2));
 		flakAmmo = Random.Range ((int)(PlayerControl.MAX_FLAK_AMMO / 5), (int)(PlayerControl.MAX_FLAK_AMMO / 2));
 		mortarAmmo = Random.Range ((int)(PlayerControl.MAX_MORTAR_AMMO / 5), (int)(PlayerControl.MAX_MORTAR_AMMO / 2));
@@ -21,6 +23,8 @@ public class AmmoPickup : MonoBehaviour {
 			PlayerControl.flakAmmo += flakAmmo;
 			PlayerControl.mortarAmmo += mortarAmmo;
 			Destroy (gameObject);
+
+			gameController.GetComponent<GameController>().SupplyDropPicked ();
 		}
 	}
 }

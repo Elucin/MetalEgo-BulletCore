@@ -39,13 +39,14 @@ public class AmmoDropSpawn : MonoBehaviour {
 		if (RandomPoint(transform.position, range, out point)) {
 
 			point.y = point.y + dropHeight;
-			Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f); // use to debug points on map
+			//Debug.DrawRay(point, Vector3.up, Color.blue, 1.0f); // use to debug points on map
 			GameObject ammo = (GameObject)Instantiate (
 				ammoPrefab,
 				point,
 				Quaternion.identity
 
 			);
+			 
 			ammo.tag = "SupplyDrop";
 		}
 		spawnAmmo = false;
