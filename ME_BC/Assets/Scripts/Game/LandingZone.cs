@@ -16,8 +16,8 @@ public class LandingZone : MonoBehaviour {
 	void Start () {
 		
         extractionScript = Camera.main.GetComponent<Extraction>();
-		Debug.Log ( Camera.main);
-		Debug.Log ( extractionScript.extractTime);
+		//Debug.Log ( Camera.main);
+		//Debug.Log ( extractionScript.extractTime);
 	}
 	
 	// Update is called once per frame
@@ -29,6 +29,7 @@ public class LandingZone : MonoBehaviour {
 		}
 		if(extractionScript.extracted == false && extractionScript.extracting == true && currentThreat >= maxThreat && active == true){
             extractionScript.NewZone();
+			currentThreat = 0;
         }
 
 	}
@@ -39,10 +40,11 @@ public class LandingZone : MonoBehaviour {
 			if (c.CompareTag ("Player")) {
 				extractionScript.extracting = true;
 				extractionScript.startTimer = Time.time;
-				Debug.Log ("Player in");
+				//Debug.Log ("Player in");
 			} else if (c.CompareTag ("Enemy")) {
-				Debug.Log (c.gameObject.name + " in");
+				//Debug.Log (c.gameObject.name + " in");
 				currentThreat = currentThreat + ((float)c.gameObject.GetComponent<CharacterBase> ().getScore () / threatBalance);
+				//Debug.Log (currentThreat + " -Current LZ threat level");
 			}
 		}
 
@@ -53,9 +55,9 @@ public class LandingZone : MonoBehaviour {
 		if (active) {
 			if (c.CompareTag ("Player")) {
 				extractionScript.extracting = false;
-				Debug.Log ("Player out");
+				//Debug.Log ("Player out");
 			} else if (c.CompareTag ("Enemy")) {
-				Debug.Log (c.gameObject.name + " out");
+				//Debug.Log (c.gameObject.name + " out");
 				currentThreat = currentThreat - ((float)c.gameObject.GetComponent<CharacterBase> ().getScore () / threatBalance);
 			}
 		}

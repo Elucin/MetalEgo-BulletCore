@@ -143,13 +143,13 @@ public class CharacterBase : MonoBehaviour {
 		float totalDamage = Mathf.Clamp (damage - defensePower, 0, 9999);
 		health = health - totalDamage;
 		if (type == "Gatling" && totalDamage > 0)
-			PlayerControl.playerScore += Score.GAT;
+			PlayerControl.playerScore += (int)Score.GAT;
 		else if (type == "Missile" && totalDamage > 0)
-			PlayerControl.playerScore += Score.MIS;
+			PlayerControl.playerScore += (int)Score.MIS;
 		else if (type == "Mortar" && totalDamage > 0)
-			PlayerControl.playerScore += Score.MOR;
+			PlayerControl.playerScore += (int)Score.MOR;
 		else if (type == "Flak" && totalDamage > 0)
-			PlayerControl.playerScore += Score.FLA;
+			PlayerControl.playerScore += (int)Score.FLA;
 		
 		if (health <= 0) {
 			KillPoints ();
@@ -161,13 +161,13 @@ public class CharacterBase : MonoBehaviour {
 	void KillPoints()
 	{
 		if (name.Contains ("Flying"))
-			PlayerControl.playerScore += Score.FLY;
+			PlayerControl.playerScore += (int)Score.FLY;
 		else if (name.Contains ("Kamikaze"))
-			PlayerControl.playerScore += Score.KAM;
+			PlayerControl.playerScore += (int)Score.KAM;
 		else if (name.Contains ("Tank"))
-			PlayerControl.playerScore += Score.TAN;
+			PlayerControl.playerScore += (int)Score.TAN;
 		else if (name.Contains ("Mech"))
-			PlayerControl.playerScore += Score.MEC;
+			PlayerControl.playerScore += (int)Score.MEC;
 	}
 
 	public int getScore()
