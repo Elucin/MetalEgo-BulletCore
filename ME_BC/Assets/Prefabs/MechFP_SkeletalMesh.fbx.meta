@@ -1,0 +1,159 @@
+fileFormatVersion: 2
+guid: a7f07a06a48a06746b946a355752afce
+timeCreated: 1481911342
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: gun_L
+    100002: gun_R
+    100004: hip_L
+    100006: hip_R
+    100008: ikHandle_grp
+    100010: ikHandle_L_gun
+    100012: ikHandle_R_gun
+    100014: jnt_head
+    100016: jnt_hip
+    100018: jnt_L_elbow
+    100020: jnt_L_foot
+    100022: jnt_L_gun
+    100024: jnt_L_hip
+    100026: jnt_L_knee
+    100028: jnt_L_shoulder
+    100030: jnt_L_Toe
+    100032: jnt_L_wrist
+    100034: jnt_neck
+    100036: jnt_R_elbow
+    100038: jnt_R_foot
+    100040: jnt_R_gun
+    100042: jnt_R_hip
+    100044: jnt_R_knee
+    100046: jnt_R_shoulder
+    100048: jnt_R_Toe
+    100050: jnt_R_wrist
+    100052: jnt_Root
+    100054: jnt_spine1
+    100056: leg_L
+    100058: leg_R
+    100060: mech_grp
+    100062: //RootNode
+    100064: root_grp
+    100066: waist
+    400000: gun_L
+    400002: gun_R
+    400004: hip_L
+    400006: hip_R
+    400008: ikHandle_grp
+    400010: ikHandle_L_gun
+    400012: ikHandle_R_gun
+    400014: jnt_head
+    400016: jnt_hip
+    400018: jnt_L_elbow
+    400020: jnt_L_foot
+    400022: jnt_L_gun
+    400024: jnt_L_hip
+    400026: jnt_L_knee
+    400028: jnt_L_shoulder
+    400030: jnt_L_Toe
+    400032: jnt_L_wrist
+    400034: jnt_neck
+    400036: jnt_R_elbow
+    400038: jnt_R_foot
+    400040: jnt_R_gun
+    400042: jnt_R_hip
+    400044: jnt_R_knee
+    400046: jnt_R_shoulder
+    400048: jnt_R_Toe
+    400050: jnt_R_wrist
+    400052: jnt_Root
+    400054: jnt_spine1
+    400056: leg_L
+    400058: leg_R
+    400060: mech_grp
+    400062: //RootNode
+    400064: root_grp
+    400066: waist
+    4300000: waist
+    4300002: gun_L
+    4300004: gun_R
+    4300006: hip_L
+    4300008: hip_R
+    4300010: leg_L
+    4300012: leg_R
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: gun_L
+    13700002: gun_R
+    13700004: hip_L
+    13700006: hip_R
+    13700008: leg_L
+    13700010: leg_R
+    13700012: waist
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 13
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
