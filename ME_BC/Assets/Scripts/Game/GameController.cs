@@ -96,7 +96,7 @@ public class GameController : MonoBehaviour {
 	{
 		int indexLZ = Random.Range (0, landingZones.Length);
 		for (int i = 0; i < landingZones.Length; i++) {
-			if (landingZones [i].GetComponent<LandingZone> ().active = true) {
+			if (landingZones [i].GetComponent<LandingZone> ().active == true) {
 				indexLZ = i + 3 + Random.Range (0, 2);
 				if (indexLZ > 7)
 					indexLZ = indexLZ - 8;

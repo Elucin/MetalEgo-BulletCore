@@ -15,6 +15,7 @@ public class AmmoPickup : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider c)
 	{
+		
 		if (c.CompareTag ("Player")) {
 			PlayerControl.missileAmmo += missileAmmo;
 			PlayerControl.flakAmmo += flakAmmo;

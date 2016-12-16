@@ -26,8 +26,9 @@ public class Extraction : MonoBehaviour {
     void Countdown()
     {
 
-
-		Debug.Log(Time.time - startTimer + " til: " + extractTime);
+		//if((Time.time - startTimer)%10 <= 1)
+			//Debug.Log(Time.time - startTimer + " til: " + extractTime);
+		
 		if (Time.time - startTimer >= extractTime) {
 			extracted = true;
 			Debug.Log ("Extracted");
